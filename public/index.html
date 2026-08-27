@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta Regional de Necesidades de Educación, Formación y Talento - UNIMINUTO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            uniminuto: {
+              navy: '#002B49',
+              blue: '#004B87',
+              gold: '#F4A900',
+              accent: '#E6A100',
+              light: '#F8FAFC',
+              dark: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom styles and smooth transitions */
+    .section-transition {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scale-up {
+      transform: scale(1.01);
+    }
+    input[type="radio"]:checked + label {
+      border-color: #004B87;
+      background-color: #eff6ff;
+    }
+    input[type="checkbox"]:checked + label {
+      border-color: #004B87;
+      background-color: #f0f7ff;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-uniminuto-gold selection:text-uniminuto-navy">
+
+  <!-- Datalist con sugerencias de municipios frecuentes -->
+  <datalist id="municipios-sugeridos">
+    <option value="Guadalajara de Buga"></option>
+    <option value="Tuluá"></option>
+    <option value="Cali"></option>
+    <option value="Palmira"></option>
+    <option value="Yumbo"></option>
+    <option value="Cartago"></option>
+    <option value="Buenaventura"></option>
+    <option value="Jamundí"></option>
+    <option value="Ginebra"></option>
+    <option value="Guacarí"></option>
+    <option value="San Pedro"></option>
+    <option value="El Cerrito"></option>
+    <option value="Sevilla"></option>
+    <option value="Zarzal"></option>
+    <option value="Roldanillo"></option>
+    <option value="Caicedonia"></option>
+    <option value="Bogotá D.C."></option>
+    <option value="Medellín"></option>
+  </datalist>
+
+  <!-- Header Institucional -->
+  <header class="bg-uniminuto-navy text-white shadow-lg sticky top-0 z-40 border-b-4 border-uniminuto-gold">
+    <div class="max-w-5xl mx-auto px-4 py-3 sm:px-6 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-white p-1.5 rounded-lg flex items-center justify-center shadow-md">
+          <i class="fa-solid fa-graduation-cap text-uniminuto-navy text-2xl"></i>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-uniminuto-gold">UNIMINUTO</span>
+          <h1 class="text-base sm:text-lg font-bold leading-tight line-clamp-1">Encuesta Regional de Necesidades de Formación</h1>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center space-x-2 text-xs bg-uniminuto-blue px-3 py-1.5 rounded-full text-blue-100">
+        <i class="fa-regular fa-clock text-uniminuto-gold"></i>
+        <span>8 a 12 minutos aprox.</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress Bar Container -->
+  <div class="bg-white border-b border-slate-200 sticky top-[57px] z-30 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-2 sm:px-6">
+      <div class="flex justify-between items-center text-xs font-medium text-slate-500 mb-1">
+        <span id="route-indicator-text" class="flex items-center gap-1">
+          <i class="fa-solid fa-compass text-uniminuto-gold"></i> Ruta activa: <strong class="text-uniminuto-navy font-semibold">General</strong>
+        </span>
+        <span id="progress-percent" class="font-bold text-uniminuto-blue">0% completado</span>
+      </div>
+      <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+        <div id="progress-bar" class="bg-gradient-to-r from-uniminuto-blue to-uniminuto-gold h-2 rounded-full transition-all duration-300 w-0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 sm:px-6">
+    
+    <!-- Banner de Presentación -->
+    <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-uniminuto-gold/10 rounded-bl-full pointer-events-none"></div>
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-uniminuto-gold rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-amber-200">
+        <i class="fa-solid fa-bullseye"></i> Diagnóstico Regional
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-bold text-uniminuto-navy mb-3">
+        Encuesta de Necesidades de Educación, Formación y Talento
+      </h2>
+      <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+        UNIMINUTO desarrolla este ejercicio de caracterización de las necesidades educativas, laborales y productivas con el propósito de generar información estratégica que contribuya al fortalecimiento de la oferta académica y al desarrollo del territorio.
+      </p>
+      <div class="bg-blue-50/80 border-l-4 border-uniminuto-blue p-3.5 rounded-r-lg text-xs sm:text-sm text-slate-700 flex items-start gap-2.5">
+        <i class="fa-solid fa-shield-halved text-uniminuto-blue text-base mt-0.5"></i>
+        <span>La información recopilada será analizada de manera agregada y utilizada con fines académicos, institucionales y de planeación territorial.</span>
+      </div>
+    </div>
+
+    <!-- Mensaje visual de Ruta Dinámica -->
+    <div id="route-badge-container" class="hidden mb-6 bg-gradient-to-r from-slate-900 to-uniminuto-navy text-white p-4 rounded-xl shadow-md border border-slate-700">
+      <div class="flex items-center gap-2 text-xs font-bold text-uniminuto-gold uppercase tracking-wider mb-1">
+        <i class="fa-solid fa-route"></i> Ruta personalizada activada
+      </div>
+      <p id="route-path-display" class="text-xs sm:text-sm text-slate-200 font-medium">
+        Secciones habilitadas para su perfil
+      </p>
+    </div>
+
+    <!-- Formulario Principal -->
+    <form id="survey-form" onsubmit="handleFormSubmit(event)" novalidate>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 1. CARACTERIZACIÓN DEL PARTICIPANTE -->
+      <!-- ========================================== -->
+      <section id="section-1" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-uniminuto-navy text-white flex items-center justify-center font-bold text-sm">1</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Caracterización del Participante</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Información general y contexto territorial</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 1 (Texto para escribir con autocompletado) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label for="q1" class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              1. ¿En qué municipio reside actualmente? <span class="text-red-500">*</span>
+            </label>
+            <p class="text-xs text-slate-500 mb-3">Escriba el nombre del municipio donde vive.</p>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                <i class="fa-solid fa-location-dot"></i>
+              </span>
+              <input 
+                type="text" 
+                id="q1" 
+                name="q1" 
+                list="municipios-sugeridos" 
+                placeholder="Escriba su municipio de residencia (ej: Buga, Tuluá, Cali, Palmira...)" 
+                required 
+                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-uniminuto-blue focus:border-uniminuto-blue bg-white text-slate-800 text-sm outline-none transition"
+              >
+            </div>
+          </div>
+
+          <!-- Pregunta 2 (Texto para escribir + Opción No Aplica) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label for="q2" class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              2. ¿En qué municipio desarrolla principalmente su actividad laboral, empresarial o académica? <span class="text-red-500">*</span>
+            </label>
+            <p class="text-xs text-slate-500 mb-3">Escriba el municipio o marque la casilla si no aplica a su situación actual.</p>
+            
+            <div class="space-y-3">
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-building"></i>
+                </span>
+                <input 
+                  type="text" 
+                  id="q2" 
+                  name="q2" 
+                  list="municipios-sugeridos" 
+                  placeholder="Escriba el municipio donde labora o estudia" 
+                  required 
+                  class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-uniminuto-blue focus:border-uniminuto-blue bg-white text-slate-800 text-sm outline-none transition"
+                >
+              </div>
+
+              <!-- Checkbox para No aplica -->
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs sm:text-sm text-slate-600 bg-white px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100 select-none">
+                <input type="checkbox" id="q2-no-aplica" class="rounded text-uniminuto-blue focus:ring-uniminuto-blue w-4 h-4" onchange="toggleQ2NoAplica(this)">
+                <span>No aplica (actualmente no desarrollo actividades laborales ni académicas presenciales)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 3 (CONDICIONAL MAESTRO) -->
+          <div class="p-4 rounded-xl bg-amber-50/70 border-2 border-uniminuto-gold/60 shadow-sm">
+            <div class="flex items-center gap-2 text-uniminuto-navy text-xs font-bold uppercase tracking-wider mb-1">
+              <i class="fa-solid fa-sliders text-uniminuto-gold"></i> Pregunta clave de enrutamiento
+            </div>
+            <label class="block font-semibold text-slate-900 mb-1 text-sm sm:text-base">
+              3. ¿Desde cuál de las siguientes perspectivas responde principalmente esta encuesta? <span class="text-red-500">*</span>
+            </label>
+            <p class="text-xs text-slate-600 mb-3">Seleccione la opción que mejor describa su perfil principal para personalizar el cuestionario.</p>
+            
+            <div class="space-y-2" id="q3-options-container">
+              <!-- Options generated or static with dynamic listener -->
+              <div class="grid grid-cols-1 gap-2">
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="estudiar" required class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Persona interesada en iniciar o continuar estudios</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="estudiante" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Estudiante actual</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="trabajador" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Trabajador(a) / empleado(a)</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="empresario" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Empresario(a) / empleador(a)</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="emprendedor" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Emprendedor(a)</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="independiente" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Trabajador(a) independiente</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="sector_publico" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Representante de una entidad pública / Sector público</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="institucion_educativa" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Representante de una institución educativa</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="organizacion_social" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Representante de una organización social o comunitaria</span>
+                </label>
+                <label class="flex items-center p-3 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-blue-50/50 transition">
+                  <input type="radio" name="q3" value="otro" class="text-uniminuto-blue focus:ring-uniminuto-blue" onchange="handleProfileChange(this.value)">
+                  <span class="ml-3 text-sm font-medium text-slate-700">Otro perfil</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pregunta 4 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              4. ¿Cuál es su relación actual con el sector laboral o productivo?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Empresario/propietario" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Empresario(a) / propietario(a) de empresa</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Emprendedor" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Emprendedor(a)</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Empleado privado" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Empleado(a) del sector privado</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Servidor público" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Servidor(a) o colaborador(a) público</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Independiente" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Trabajador(a) independiente</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Estudiante" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Estudiante</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="No trabajando" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Actualmente no se encuentra trabajando</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q4" value="Otro" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Otro</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 5 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              5. ¿Cuál es su principal cargo, ocupación o actividad?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Gerencia/Alta dirección" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Gerencia / alta dirección</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Jefatura/Coordinación" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Jefatura / coordinación / supervisión</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Profesional" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Profesional</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Técnico/Tecnólogo" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Técnico(a) / tecnólogo(a)</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Administrativo" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Administrativo(a)</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Operativo" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Operativo(a)</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Empresario/Emprendedor" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Empresario(a) / emprendedor(a)</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Independiente" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Trabajador(a) independiente</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Estudiante" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Estudiante</span>
+              </label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm">
+                <input type="radio" name="q5" value="Otro" class="text-uniminuto-blue">
+                <span class="ml-2 text-slate-700">Otro</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pregunta 6 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              6. ¿En qué sector desarrolla principalmente su actividad laboral, empresarial o profesional?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Agropecuario" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Agropecuario</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Agroindustria" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Agroindustria</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Comercio" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Comercio</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Manufactura/industria" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Manufactura / industria</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Construcción" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Construcción</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Turismo, gastronomía y hotelería" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Turismo, gastronomía y hotelería</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Salud" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Salud</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Educación" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Educación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Tecnología y servicios digitales" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Tecnología y servicios digitales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Transporte y logística" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Transporte y logística</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Servicios financieros" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Servicios financieros</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Administración pública" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Administración pública</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Servicios profesionales" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Servicios profesionales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Economía creativa y diseño" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Economía creativa, comunicación y diseño</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="Servicios sociales y comunitarios" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Servicios sociales y comunitarios</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q6" value="No aplica" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">No aplica / Otro</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 7 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              7. ¿Cuál es el nivel educativo más alto que ha alcanzado?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Educación básica" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Educación básica</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Bachillerato" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Bachillerato</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Técnico laboral" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Técnico laboral</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Técnico profesional" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Técnico profesional</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Tecnológico" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Tecnológico</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Profesional universitario" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Profesional universitario</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Especialización" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Especialización</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Maestría" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Maestría</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Doctorado" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Doctorado</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q7" value="Otro" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Otro</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 2. NECESIDADES E INTERÉS EN FORMACIÓN -->
+      <!-- ========================================== -->
+      <section id="section-2" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-uniminuto-blue text-white flex items-center justify-center font-bold text-sm">2</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Necesidades e Interés en Formación</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Expectativas académicas, modalidades y preferencias</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 8 (Múltiple) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              8. Durante los próximos dos años, ¿qué tipo de formación estaría interesado(a) en realizar?
+            </label>
+            <p class="text-xs text-slate-500 mb-3">Seleccione una o varias opciones.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Técnico profesional" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Técnico profesional</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Tecnológico" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Tecnológico</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Profesional universitario" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Profesional universitario</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Especialización" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Especialización</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Maestría" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Maestría</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Cursos cortos" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Cursos cortos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Diplomados" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Diplomados</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Certificaciones profesionales" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Certificaciones profesionales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Microcredenciales" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Microcredenciales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Formación en idiomas" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Formación en idiomas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="No tiene previsto realizar estudios" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">No tiene previsto realizar estudios</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q8" value="Aún no definido / Otro" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Aún no lo ha definido / Otro</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 9 (Múltiple, Máximo 2) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                9. ¿Cuál sería su principal motivación para realizar un nuevo proceso de formación?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-uniminuto-blue rounded-full">Máx. 2</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Seleccione hasta 2 opciones.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit" data-max="2" data-name="q9">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Conseguir empleo" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Conseguir empleo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Mejorar oportunidades" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Mejorar mis oportunidades laborales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Ascender profesionalmente" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Ascender profesionalmente</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Cambiar de área o profesión" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Cambiar de área o profesión</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Actualizar conocimientos" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Actualizar mis conocimientos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Competencias digitales" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Fortalecer mis competencias digitales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Crear o fortalecer emprendimiento" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Crear o fortalecer un emprendimiento</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Certificación profesional" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Obtener una certificación profesional</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Estudios de mayor nivel" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Continuar estudios de mayor nivel</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q9" value="Desarrollo personal" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Desarrollo personal</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 10 (Múltiple, Máximo 3) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                10. ¿En cuáles áreas de conocimiento tendría mayor interés en realizar estudios o procesos de formación?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-uniminuto-blue rounded-full">Máx. 3</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Seleccione hasta 3 áreas.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit" data-max="3" data-name="q10">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Administración y gestión" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Administración y gestión empresarial</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Contabilidad y finanzas" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Contabilidad, finanzas y tributación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Seguridad y salud en el trabajo" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Seguridad y salud en el trabajo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Ingeniería industrial y procesos" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Ingeniería industrial y procesos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Sistemas y software" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Ingeniería de sistemas y desarrollo de software</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Inteligencia Artificial" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Inteligencia Artificial</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Analítica y ciencia de datos" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Analítica y ciencia de datos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Ciberseguridad" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Ciberseguridad</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Logística y cadena de suministro" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Logística y cadena de suministro</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Agroindustria y desarrollo rural" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Agroindustria y desarrollo rural</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Derecho y ciencias jurídicas" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Derecho y ciencias jurídicas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Psicología" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Psicología</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Trabajo social" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Trabajo social y desarrollo comunitario</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Educación y pedagogía" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Educación y pedagogía</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Comunicación y marketing" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Comunicación y marketing</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Turismo y hotelería" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Turismo y hotelería</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Salud" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Salud</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Emprendimiento e innovación" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Emprendimiento e innovación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Sostenibilidad y gestión ambiental" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Sostenibilidad y gestión ambiental</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q10" value="Música y artes / Otra" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Música, artes u otra área</span></label>
+            </div>
+          </div>
+
+          <!-- Preguntas 11, 12, 13 (Grid) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Q11 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block font-semibold text-slate-800 mb-2 text-sm">
+                11. Modalidad preferida:
+              </label>
+              <div class="space-y-1.5 text-xs">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q11" value="Presencial" class="text-uniminuto-blue"><span class="ml-2">Presencial</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q11" value="Virtual" class="text-uniminuto-blue"><span class="ml-2">Virtual</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q11" value="Híbrida" class="text-uniminuto-blue"><span class="ml-2">Híbrida</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q11" value="A distancia" class="text-uniminuto-blue"><span class="ml-2">A distancia con encuentros periódicos</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q11" value="Indiferente" class="text-uniminuto-blue"><span class="ml-2">Me resulta indiferente</span></label>
+              </div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block font-semibold text-slate-800 mb-2 text-sm">
+                12. Horario preferido:
+              </label>
+              <div class="space-y-1.5 text-xs">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q12" value="Jornada diurna" class="text-uniminuto-blue"><span class="ml-2">Jornada diurna</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q12" value="Jornada nocturna" class="text-uniminuto-blue"><span class="ml-2">Jornada nocturna</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q12" value="Fines de semana" class="text-uniminuto-blue"><span class="ml-2">Fines de semana</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q12" value="Horarios flexibles" class="text-uniminuto-blue"><span class="ml-2">Horarios flexibles</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q12" value="Asincrónica" class="text-uniminuto-blue"><span class="ml-2">Principalmente asincrónica</span></label>
+              </div>
+            </div>
+
+            <!-- Q13 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block font-semibold text-slate-800 mb-2 text-sm">
+                13. Duración preferida:
+              </label>
+              <div class="space-y-1.5 text-xs">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q13" value="Menos de 1 mes" class="text-uniminuto-blue"><span class="ml-2">Menos de 1 mes</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q13" value="1 a 3 meses" class="text-uniminuto-blue"><span class="ml-2">Entre 1 y 3 meses</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q13" value="4 a 6 meses" class="text-uniminuto-blue"><span class="ml-2">Entre 4 y 6 meses</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q13" value="1 a 2 años" class="text-uniminuto-blue"><span class="ml-2">Entre 1 y 2 años</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q13" value="Programa universitario largo" class="text-uniminuto-blue"><span class="ml-2">Programa universitario</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pregunta 14 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              14. Si el programa o formación de su interés no estuviera disponible en su municipio, ¿qué alternativa consideraría principalmente?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q14" value="Desplazarme a otro municipio" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Desplazarme a otro municipio</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q14" value="Desplazarme algunos días" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Desplazarme algunos días a la semana</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q14" value="Modalidad híbrida" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Estudiar en modalidad híbrida</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q14" value="Modalidad virtual" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Estudiar en modalidad virtual</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q14" value="Esperar oferta local" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Esperar hasta encontrar una oferta en mi municipio</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q14" value="No realizaría formación" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">No realizaría la formación</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 15 (Múltiple, Máximo 3) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                15. ¿Cuáles serían las principales barreras que podrían dificultar su acceso a procesos de educación o formación?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-blue-100 text-uniminuto-blue rounded-full">Máx. 3</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Seleccione hasta 3 opciones.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit" data-max="3" data-name="q15">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Costo de matrícula" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Costo de matrícula</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Falta de tiempo" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Falta de tiempo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Horarios disponibles" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Horarios disponibles</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Distancia / Transporte" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Distancia hasta el lugar de estudio / Transporte</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Responsabilidades familiares" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Responsabilidades familiares</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Conectividad / internet" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Conectividad o acceso a internet</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Falta de oferta local" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Falta de oferta académica en mi municipio</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q15" value="Ninguna / Otra" class="rounded text-uniminuto-blue"><span class="ml-2 text-slate-700">Ninguna / Otra</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 16 (Escala 1 a 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm sm:text-base">
+              16. ¿Qué tan atractivo le resultaría cursar un programa que le permita obtener certificaciones o microcredenciales a medida que avanza en su formación?
+            </label>
+            <div class="flex items-center justify-between gap-2 max-w-md mx-auto pt-2">
+              <span class="text-xs text-slate-500 font-medium">1 (Nada)</span>
+              <div class="flex gap-2 sm:gap-4">
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q16" value="1" class="text-uniminuto-blue"><span class="text-xs mt-1 text-slate-600">1</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q16" value="2" class="text-uniminuto-blue"><span class="text-xs mt-1 text-slate-600">2</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q16" value="3" class="text-uniminuto-blue"><span class="text-xs mt-1 text-slate-600">3</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q16" value="4" class="text-uniminuto-blue"><span class="text-xs mt-1 text-slate-600">4</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q16" value="5" class="text-uniminuto-blue"><span class="text-xs mt-1 text-slate-600">5</span></label>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">5 (Muy atractivo)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 3. CONDICIONES ECONÓMICAS Y DE ACCESO -->
+      <!-- ========================================== -->
+      <section id="section-3" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">3</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Condiciones Económicas y de Acceso</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Capacidad de inversión y mecanismos de financiación</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 17 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              17. Pensando en un programa universitario, ¿cuál sería el valor máximo que estaría dispuesto(a) o tendría posibilidad de pagar por semestre?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="Menos de $1.500.000" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Menos de $1.500.000</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="$1.500.000 a $2.000.000" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Entre $1.500.000 y $2.000.000</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="$2.000.001 a $2.500.000" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Entre $2.000.001 y $2.500.000</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="$2.500.001 a $3.000.000" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Entre $2.500.001 y $3.000.000</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="$3.000.001 a $3.500.000" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Entre $3.000.001 y $3.500.000</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="Más de $3.500.000" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">Más de $3.500.000</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q17" value="No sabe / dependería" class="text-uniminuto-blue"><span class="ml-2 text-slate-700">No sabe / dependería del programa</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 18 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              18. ¿Requeriría algún tipo de apoyo financiero para iniciar o continuar sus estudios?
+            </label>
+            <div class="flex flex-wrap gap-3 mt-2">
+              <label class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-sm"><input type="radio" name="q18" value="Sí" class="text-uniminuto-blue"><span class="ml-2">Sí</span></label>
+              <label class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-sm"><input type="radio" name="q18" value="No" class="text-uniminuto-blue"><span class="ml-2">No</span></label>
+              <label class="flex items-center px-4 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-sm"><input type="radio" name="q18" value="No seguro" class="text-uniminuto-blue"><span class="ml-2">No está seguro(a)</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 19 (Múltiple, Máximo 3) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                19. ¿Qué alternativas facilitarían principalmente su acceso a la educación?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full">Máx. 3</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Seleccione hasta 3 alternativas.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit" data-max="3" data-name="q19">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Beca" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Beca</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Descuento en matrícula" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Descuento en matrícula</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Crédito educativo" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Crédito educativo (Icetex u otros)</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Financiación directa con universidad" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Financiación directa con la universidad</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Pago por cuotas" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Pago de matrícula por cuotas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Subsidio de empresa" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Subsidio de la empresa donde trabaja</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Subsidio caja compensación" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Subsidio de caja de compensación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q19" value="Subsidio transporte/alimentación/Otro" class="rounded text-emerald-600"><span class="ml-2 text-slate-700">Subsidio de transporte o alimentación / Otro</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 4. COMPETENCIAS PARA EL EMPLEO -->
+      <!-- ========================================== -->
+      <section id="section-4" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">4</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Competencias para el Empleo</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Habilidades clave y brechas de formación en el mercado regional</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 20 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                20. ¿Cuáles considera que serán las competencias más importantes para acceder, mantenerse y crecer en el mercado laboral durante los próximos años?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full">Máx. 5</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Seleccione hasta 5 competencias fundamentales.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit" data-max="5" data-name="q20">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Comunicación efectiva" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Comunicación efectiva</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Trabajo en equipo" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Trabajo en equipo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Liderazgo" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Liderazgo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Pensamiento crítico" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Pensamiento crítico y resolución de problemas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Creatividad e innovación" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Creatividad e innovación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Emprendimiento" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Emprendimiento</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Inglés" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Inglés</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Competencias digitales" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Competencias digitales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Inteligencia Artificial" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Inteligencia Artificial</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Programación y software" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Programación y desarrollo de software</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Analítica de datos" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Analítica de datos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Gestión de proyectos" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Gestión de proyectos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Ventas y comercial" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Gestión comercial y ventas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Adaptabilidad" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Adaptabilidad y aprendizaje continuo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q20" value="Socioemocionales / Otra" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Competencias socioemocionales / Otra</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 21 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                21. ¿En cuáles de estas competencias considera que existe actualmente una mayor necesidad de formación en la región?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full">Máx. 5</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3">Seleccione hasta 5 competencias donde haya mayor déficit regional.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit" data-max="5" data-name="q21">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Comunicación efectiva" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Comunicación efectiva</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Trabajo en equipo" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Trabajo en equipo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Liderazgo" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Liderazgo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Pensamiento crítico" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Pensamiento crítico y resolución de problemas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Creatividad e innovación" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Creatividad e innovación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Emprendimiento" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Emprendimiento</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Inglés" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Inglés</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Competencias digitales" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Competencias digitales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Inteligencia Artificial" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Inteligencia Artificial</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Programación y software" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Programación y desarrollo de software</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Analítica de datos" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Analítica de datos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Gestión de proyectos" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Gestión de proyectos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Ventas y comercial" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Gestión comercial y ventas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Adaptabilidad" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Adaptabilidad y aprendizaje continuo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q21" value="Socioemocionales / Otra" class="rounded text-indigo-600"><span class="ml-2 text-slate-700">Competencias socioemocionales / Otra</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 5. NECESIDADES DE TALENTO PRODUCTIVO -->
+      <!-- ========================================== -->
+      <section id="section-5" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-cyan-600 text-white flex items-center justify-center font-bold text-sm">5</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Necesidades de Talento del Sector Productivo</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Demanda laboral, brechas de contratación y prospectiva empresarial</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 22 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm sm:text-base">
+              22. En su empresa, organización o actividad laboral, ¿existen dificultades para encontrar personas con los conocimientos, perfiles o competencias requeridas?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q22" value="Sí, frecuentemente" class="text-cyan-600"><span class="ml-2">Sí, frecuentemente</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q22" value="Sí, ocasionalmente" class="text-cyan-600"><span class="ml-2">Sí, ocasionalmente</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q22" value="No" class="text-cyan-600"><span class="ml-2">No</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q22" value="No sabe" class="text-cyan-600"><span class="ml-2">No sabe</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="radio" name="q22" value="No aplica" class="text-cyan-600"><span class="ml-2">No aplica</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 23 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                23. ¿En cuáles áreas o perfiles existen mayores dificultades para encontrar talento?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-cyan-100 text-cyan-800 rounded-full">Máx. 5</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-3" data-max="5" data-name="q23">
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Administración y gestión" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Administración y gestión</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Finanzas y contabilidad" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Finanzas, contabilidad y tributación</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Mercadeo y ventas" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Mercadeo y ventas</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Talento humano" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Talento humano</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Sistemas y software" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Sistemas y desarrollo de software</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Inteligencia Artificial y datos" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Inteligencia Artificial y analítica de datos</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Ciberseguridad" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Ciberseguridad</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Logística y cadena suministro" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Logística y cadena de suministro</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Agroindustria" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Agroindustria</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Turismo y hotelería" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Turismo y hotelería</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Técnicos y tecnólogos especializados" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Técnicos y tecnólogos especializados</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 text-xs sm:text-sm"><input type="checkbox" name="q23" value="Personal operativo calificado / Otro" class="rounded text-cyan-600"><span class="ml-2 text-slate-700">Personal operativo calificado / Otro</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 24 (Múltiple) y 25 (Múltiple, Máx 3) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Q24 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block font-semibold text-slate-800 mb-2 text-xs sm:text-sm">
+                24. Nivel de formación de los perfiles más difíciles de encontrar:
+              </label>
+              <div class="space-y-1.5 text-xs">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q24" value="Formación trabajo" class="rounded text-cyan-600"><span class="ml-2">Formación para el trabajo</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q24" value="Técnico" class="rounded text-cyan-600"><span class="ml-2">Técnico</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q24" value="Tecnólogo" class="rounded text-cyan-600"><span class="ml-2">Tecnólogo</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q24" value="Profesional universitario" class="rounded text-cyan-600"><span class="ml-2">Profesional universitario</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q24" value="Especialista/Magíster" class="rounded text-cyan-600"><span class="ml-2">Especialista / Magíster</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q24" value="Experiencia más importante" class="rounded text-cyan-600"><span class="ml-2">Experiencia más importante que el título</span></label>
+              </div>
+            </div>
+
+            <!-- Q25 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-semibold text-slate-800 text-xs sm:text-sm">
+                  25. Aspectos clave al contratar talento:
+                </label>
+                <span class="text-[10px] font-bold px-1.5 py-0.5 bg-cyan-100 text-cyan-800 rounded-full">Máx. 3</span>
+              </div>
+              <div class="space-y-1.5 text-xs multi-limit mt-2" data-max="3" data-name="q25">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q25" value="Nivel formación" class="rounded text-cyan-600"><span class="ml-2">Nivel de formación académica</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q25" value="Experiencia laboral" class="rounded text-cyan-600"><span class="ml-2">Experiencia laboral</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q25" value="Competencias técnicas" class="rounded text-cyan-600"><span class="ml-2">Competencias técnicas</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q25" value="Socioemocionales" class="rounded text-cyan-600"><span class="ml-2">Competencias socioemocionales</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q25" value="Tecnología e IA" class="rounded text-cyan-600"><span class="ml-2">Manejo de herramientas tecnológicas / IA</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q25" value="Inglés" class="rounded text-cyan-600"><span class="ml-2">Dominio de inglés</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pregunta 26 (Escala 1 a 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm">
+              26. ¿Qué tan urgente considera fortalecer la formación de talento humano en las áreas seleccionadas?
+            </label>
+            <div class="flex items-center justify-between gap-2 max-w-md mx-auto pt-2">
+              <span class="text-xs text-slate-500 font-medium">1 (Nada urgente)</span>
+              <div class="flex gap-3">
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q26" value="1" class="text-cyan-600"><span class="text-xs mt-1">1</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q26" value="2" class="text-cyan-600"><span class="text-xs mt-1">2</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q26" value="3" class="text-cyan-600"><span class="text-xs mt-1">3</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q26" value="4" class="text-cyan-600"><span class="text-xs mt-1">4</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q26" value="5" class="text-cyan-600"><span class="text-xs mt-1">5</span></label>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">5 (Muy urgente)</span>
+            </div>
+          </div>
+
+          <!-- Preguntas 27, 28, 29, 30 -->
+          <div class="space-y-4">
+            <!-- Q27 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block font-semibold text-slate-800 mb-2 text-sm">
+                27. Pensando en los próximos 3 a 5 años, ¿cómo cambiará la necesidad de talento calificado en su sector?
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q27" value="Aumentará significativamente" class="text-cyan-600"><span class="ml-2">Aumentará significativamente</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q27" value="Aumentará moderadamente" class="text-cyan-600"><span class="ml-2">Aumentará moderadamente</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q27" value="Se mantendrá estable" class="text-cyan-600"><span class="ml-2">Se mantendrá estable</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q27" value="Disminuirá" class="text-cyan-600"><span class="ml-2">Disminuirá</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q27" value="No sabe" class="text-cyan-600"><span class="ml-2">No sabe</span></label>
+              </div>
+            </div>
+
+            <!-- Q28 (Múltiple, Máx 3) -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-semibold text-slate-800 text-sm">
+                  28. Factores que generarán mayores transformaciones en el empleo de su sector:
+                </label>
+                <span class="text-xs font-bold px-2 py-0.5 bg-cyan-100 text-cyan-800 rounded-full">Máx. 3</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="3" data-name="q28">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q28" value="IA y automatización" class="rounded text-cyan-600"><span class="ml-2">Inteligencia Artificial y automatización</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q28" value="Transformación digital" class="rounded text-cyan-600"><span class="ml-2">Transformación digital</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q28" value="Cambios económicos" class="rounded text-cyan-600"><span class="ml-2">Cambios económicos</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q28" value="Sostenibilidad y ambiental" class="rounded text-cyan-600"><span class="ml-2">Sostenibilidad y transición ambiental</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="checkbox" name="q28" value="Escasez de talento especializado / Otro" class="rounded text-cyan-600"><span class="ml-2">Escasez de talento especializado / Otro</span></label>
+              </div>
+            </div>
+
+            <!-- Q29 -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block font-semibold text-slate-800 mb-2 text-sm">
+                29. ¿En qué medida la IA y tecnologías digitales transformarán los perfiles de su sector?
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q29" value="Transformarán profundamente" class="text-cyan-600"><span class="ml-2">Los transformarán profundamente</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q29" value="Cambios importantes" class="text-cyan-600"><span class="ml-2">Generarán cambios importantes</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q29" value="Algunos cambios" class="text-cyan-600"><span class="ml-2">Generarán algunos cambios</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q29" value="Poco o ningún impacto" class="text-cyan-600"><span class="ml-2">Poco o ningún impacto</span></label>
+                <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q29" value="No sabe" class="text-cyan-600"><span class="ml-2">No sabe</span></label>
+              </div>
+            </div>
+
+            <!-- Q30 (Texto abierto) -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label for="q30" class="block font-semibold text-slate-800 mb-1 text-sm">
+                30. ¿Qué cargos o perfiles profesionales, técnicos o tecnológicos considera que serán más necesarios en su sector durante los próximos 3 a 5 años?
+              </label>
+              <textarea id="q30" name="q30" rows="2" placeholder="Escriba perfiles o cargos requeridos..." class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-cyan-600 bg-white text-slate-800 text-xs sm:text-sm outline-none"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 6. ARTICULACIÓN UNIVERSIDAD-EMPRESA -->
+      <!-- ========================================== -->
+      <section id="section-6" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-orange-500 text-white flex items-center justify-center font-bold text-sm">6</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Articulación Universidad – Empresa – Territorio</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Alianzas estratégicas, formación dual y proyectos conjuntos</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 31 (Condicional para Q32) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm sm:text-base">
+              31. ¿Su empresa u organización tendría interés en participar en iniciativas de formación de talento en articulación con instituciones de educación superior?
+            </label>
+            <div class="flex flex-wrap gap-2 text-xs sm:text-sm">
+              <label class="flex items-center px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="radio" name="q31" value="Sí" class="text-orange-500" onchange="toggleQ32(this.value)"><span class="ml-2">Sí</span></label>
+              <label class="flex items-center px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="radio" name="q31" value="Probablemente sí" class="text-orange-500" onchange="toggleQ32(this.value)"><span class="ml-2">Probablemente sí</span></label>
+              <label class="flex items-center px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="radio" name="q31" value="Probablemente no" class="text-orange-500" onchange="toggleQ32(this.value)"><span class="ml-2">Probablemente no</span></label>
+              <label class="flex items-center px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="radio" name="q31" value="No" class="text-orange-500" onchange="toggleQ32(this.value)"><span class="ml-2">No</span></label>
+              <label class="flex items-center px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="radio" name="q31" value="Requiere evaluación interna" class="text-orange-500" onchange="toggleQ32(this.value)"><span class="ml-2">No sabe / evaluación interna</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 32 (Sub-condicional) -->
+          <div id="q32-container" class="hidden p-4 rounded-xl bg-orange-50/60 border border-orange-200 transition-all duration-300">
+            <label class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              32. Si respondió “Sí” o “Probablemente sí”, ¿en cuáles iniciativas tendría interés en participar?
+            </label>
+            <p class="text-xs text-slate-500 mb-3">Seleccione las opciones de su interés.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Prácticas profesionales" class="rounded text-orange-500"><span class="ml-2">Prácticas profesionales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Formación dual / alternancia" class="rounded text-orange-500"><span class="ml-2">Formación dual o alternancia universidad–empresa</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Proyectos aplicados" class="rounded text-orange-500"><span class="ml-2">Proyectos aplicados a necesidades empresariales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Formación de colaboradores" class="rounded text-orange-500"><span class="ml-2">Formación y actualización de colaboradores</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Certificaciones profesionales" class="rounded text-orange-500"><span class="ml-2">Certificaciones profesionales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Retos empresariales" class="rounded text-orange-500"><span class="ml-2">Retos empresariales desarrollados por estudiantes</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Expertos en docencia" class="rounded text-orange-500"><span class="ml-2">Participación de expertos de la empresa en clases</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="I+D+i" class="rounded text-orange-500"><span class="ml-2">Investigación, innovación y desarrollo (I+D+i)</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q32" value="Emprendimiento / Empleabilidad / Otra" class="rounded text-orange-500"><span class="ml-2">Programas de emprendimiento / Empleabilidad / Otra</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 7. PERTINENCIA OFERTA EDUCATIVA -->
+      <!-- ========================================== -->
+      <section id="section-7" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-sm">7</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Pertinencia de la Oferta Educativa Regional</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Evaluación de la cobertura y suficiencia de los programas en el territorio</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 33 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm sm:text-base">
+              33. ¿En qué medida la oferta educativa regional actual responde a las necesidades laborales, productivas y sociales?
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
+              <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q33" value="Responde completamente" class="text-teal-600"><span class="ml-2">Responde completamente</span></label>
+              <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q33" value="Responde en gran medida" class="text-teal-600"><span class="ml-2">Responde en gran medida</span></label>
+              <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q33" value="Responde parcialmente" class="text-teal-600"><span class="ml-2">Responde parcialmente</span></label>
+              <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q33" value="Responde poco" class="text-teal-600"><span class="ml-2">Responde poco</span></label>
+              <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q33" value="No responde" class="text-teal-600"><span class="ml-2">No responde</span></label>
+              <label class="flex items-center p-2 bg-white rounded border border-slate-200 cursor-pointer"><input type="radio" name="q33" value="No tiene información" class="text-teal-600"><span class="ml-2">No tiene suficiente información</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 34 (Múltiple, Máx 3) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                34. ¿En cuáles niveles existe mayor necesidad de ampliar la oferta educativa en la región?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-teal-100 text-teal-800 rounded-full">Máx. 3</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="3" data-name="q34">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Formación para el trabajo" class="rounded text-teal-600"><span class="ml-2">Formación para el trabajo</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Técnico profesional" class="rounded text-teal-600"><span class="ml-2">Técnico profesional</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Tecnológico" class="rounded text-teal-600"><span class="ml-2">Tecnológico</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Profesional universitario" class="rounded text-teal-600"><span class="ml-2">Profesional universitario</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Especializaciones y Maestrías" class="rounded text-teal-600"><span class="ml-2">Especializaciones y Maestrías</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Educación continua y Microcredenciales" class="rounded text-teal-600"><span class="ml-2">Educación continua y Microcredenciales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100"><input type="checkbox" name="q34" value="Idiomas / Formación empresarial" class="rounded text-teal-600"><span class="ml-2">Idiomas / Formación empresarial</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 35 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                35. ¿En cuáles áreas considera que existen necesidades de formación no atendidas suficientemente en la región?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-teal-100 text-teal-800 rounded-full">Máx. 5</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="5" data-name="q35">
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Administración y gestión" class="rounded text-teal-600"><span class="ml-2">Administración y gestión</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Tecnología y transformación digital" class="rounded text-teal-600"><span class="ml-2">Tecnología y transformación digital</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="IA y analítica de datos" class="rounded text-teal-600"><span class="ml-2">Inteligencia Artificial y analítica</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Ciberseguridad" class="rounded text-teal-600"><span class="ml-2">Ciberseguridad</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Agroindustria" class="rounded text-teal-600"><span class="ml-2">Agroindustria</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Logística" class="rounded text-teal-600"><span class="ml-2">Logística</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Emprendimiento e innovación" class="rounded text-teal-600"><span class="ml-2">Emprendimiento e innovación</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Finanzas y contabilidad" class="rounded text-teal-600"><span class="ml-2">Finanzas y contabilidad</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Salud y Educación" class="rounded text-teal-600"><span class="ml-2">Salud y Educación</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Turismo y Sostenibilidad" class="rounded text-teal-600"><span class="ml-2">Turismo, medio ambiente y sostenibilidad</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q35" value="Idiomas / Técnica especializada" class="rounded text-teal-600"><span class="ml-2">Idiomas / Formación técnica especializada</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 8. CARACTERÍSTICAS OFERTA FUTURA -->
+      <!-- ========================================== -->
+      <section id="section-8" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-sm">8</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Características de la Oferta Educativa Futura</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Diseño curricular innovador y criterios de elección institucional</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 36 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                36. ¿Qué características debería tener un nuevo programa académico para responder mejor a las necesidades de la región?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full">Máx. 5</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="5" data-name="q36">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Formación altamente práctica" class="rounded text-purple-600"><span class="ml-2">Formación altamente práctica</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Prácticas y vinculación empresarial" class="rounded text-purple-600"><span class="ml-2">Prácticas y vinculación con empresas</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Tecnologías digitales e IA" class="rounded text-purple-600"><span class="ml-2">Formación en tecnologías digitales e Inteligencia Artificial</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Inglés integrado" class="rounded text-purple-600"><span class="ml-2">Formación sólida en inglés</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Certificaciones progresivas" class="rounded text-purple-600"><span class="ml-2">Certificaciones profesionales y microcredenciales</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Formación dual" class="rounded text-purple-600"><span class="ml-2">Formación dual universidad–empresa</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Flexibilidad y virtualidad" class="rounded text-purple-600"><span class="ml-2">Modalidad virtual o híbrida con horarios flexibles</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q36" value="Reconocimiento de experiencia previa" class="rounded text-purple-600"><span class="ml-2">Reconocimiento de experiencia y saberes previos</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 37 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                37. Al elegir una institución de educación superior, ¿cuáles son los aspectos más importantes para usted?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full">Máx. 5</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="5" data-name="q37">
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Calidad académica" class="rounded text-purple-600"><span class="ml-2">Calidad académica</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Reconocimiento" class="rounded text-purple-600"><span class="ml-2">Reconocimiento de la institución</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Costo de matrícula" class="rounded text-purple-600"><span class="ml-2">Costo de matrícula</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Financiación" class="rounded text-purple-600"><span class="ml-2">Facilidades de financiación</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Empleabilidad" class="rounded text-purple-600"><span class="ml-2">Empleabilidad de los graduados</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Convenios empresariales" class="rounded text-purple-600"><span class="ml-2">Convenios empresariales y prácticas</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Flexibilidad horaria y modalidad" class="rounded text-purple-600"><span class="ml-2">Flexibilidad horaria y modalidades virtuales</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q37" value="Cercanía geográfica / Otro" class="rounded text-purple-600"><span class="ml-2">Cercanía geográfica / Otro</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 38 (Escala 1 a 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm">
+              38. ¿Qué tan importante es que la institución mantenga alianzas con empresas para facilitar prácticas y empleo?
+            </label>
+            <div class="flex items-center justify-between gap-2 max-w-md mx-auto pt-2">
+              <span class="text-xs text-slate-500 font-medium">1 (Nada importante)</span>
+              <div class="flex gap-3">
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q38" value="1" class="text-purple-600"><span class="text-xs mt-1">1</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q38" value="2" class="text-purple-600"><span class="text-xs mt-1">2</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q38" value="3" class="text-purple-600"><span class="text-xs mt-1">3</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q38" value="4" class="text-purple-600"><span class="text-xs mt-1">4</span></label>
+                <label class="flex flex-col items-center cursor-pointer"><input type="radio" name="q38" value="5" class="text-purple-600"><span class="text-xs mt-1">5</span></label>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">5 (Muy importante)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 9. DESARROLLO Y PROSPECTIVA REGIONAL -->
+      <!-- ========================================== -->
+      <section id="section-9" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center font-bold text-sm">9</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Desarrollo y Prospectiva Regional</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Visión a 5 años, desafíos del territorio y propuestas formativas</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Pregunta 39 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                39. ¿Cuáles deberían ser las áreas prioritarias de formación para impulsar el desarrollo regional en los próximos 5 años?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded-full">Máx. 5</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="5" data-name="q39">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Agroindustria y desarrollo rural" class="rounded text-rose-600"><span class="ml-2">Agroindustria y desarrollo rural</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Tecnología y transformación digital" class="rounded text-rose-600"><span class="ml-2">Tecnología y transformación digital</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="IA y analítica de datos" class="rounded text-rose-600"><span class="ml-2">IA y analítica de datos</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Industria y manufactura" class="rounded text-rose-600"><span class="ml-2">Industria y manufactura</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Logística y cadena de suministro" class="rounded text-rose-600"><span class="ml-2">Logística y cadena de suministro</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Turismo y gastronomía" class="rounded text-rose-600"><span class="ml-2">Turismo y gastronomía</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Salud y Educación" class="rounded text-rose-600"><span class="ml-2">Salud y Educación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Emprendimiento e innovación" class="rounded text-rose-600"><span class="ml-2">Emprendimiento e innovación</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Sostenibilidad y medio ambiente" class="rounded text-rose-600"><span class="ml-2">Sostenibilidad y medio ambiente</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q39" value="Desarrollo social y comunitario / Otra" class="rounded text-rose-600"><span class="ml-2">Desarrollo social y comunitario / Otra</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 40 (Múltiple, Máx 5) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                40. ¿Cuáles considera que son los principales desafíos que pueden limitar el desarrollo regional?
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded-full">Máx. 5</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="5" data-name="q40">
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Desempleo e informalidad" class="rounded text-rose-600"><span class="ml-2">Desempleo e informalidad laboral</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Falta de talento especializado" class="rounded text-rose-600"><span class="ml-2">Falta de talento especializado</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Baja transformación digital" class="rounded text-rose-600"><span class="ml-2">Bajo nivel de transformación digital</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Migración de talento" class="rounded text-rose-600"><span class="ml-2">Migración de talento a otras ciudades</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Baja articulación universidad-empresa" class="rounded text-rose-600"><span class="ml-2">Baja articulación educación–empresa</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Barreras económicas de acceso" class="rounded text-rose-600"><span class="ml-2">Dificultades económicas para estudiar</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q40" value="Conectividad e infraestructura" class="rounded text-rose-600"><span class="ml-2">Limitaciones de conectividad e infraestructura</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 41 (Múltiple, Máx 3) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="font-semibold text-slate-800 text-sm sm:text-base">
+                41. Prioridades formativas para la región en los próximos 5 años:
+              </label>
+              <span class="text-xs font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded-full">Máx. 3</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 multi-limit mt-2 text-xs sm:text-sm" data-max="3" data-name="q41">
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q41" value="Ampliar acceso a educación superior" class="rounded text-rose-600"><span class="ml-2">Ampliar acceso a educación superior</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q41" value="Fortalecer técnicos y tecnológicos" class="rounded text-rose-600"><span class="ml-2">Fortalecer programas técnicos y tecnológicos</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q41" value="Competencias digitales e IA" class="rounded text-rose-600"><span class="ml-2">Desarrollar competencias digitales e IA</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q41" value="Fortalecer inglés" class="rounded text-rose-600"><span class="ml-2">Fortalecer el bilingüismo (inglés)</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q41" value="Mayor oferta a los municipios" class="rounded text-rose-600"><span class="ml-2">Llevar mayor oferta educativa a los municipios</span></label>
+              <label class="flex items-center p-2 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="checkbox" name="q41" value="Becas y financiación / Otra" class="rounded text-rose-600"><span class="ml-2">Facilitar el acceso mediante becas y financiación / Otra</span></label>
+            </div>
+          </div>
+
+          <!-- Pregunta 42 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm sm:text-base">
+              42. ¿En cuál sector le gustaría desarrollar o continuar desarrollando su trayectoria laboral?
+            </label>
+            <select name="q42" class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-rose-600 bg-white text-slate-800 text-xs sm:text-sm outline-none">
+              <option value="">Seleccione un sector...</option>
+              <option value="Agropecuario">Agropecuario</option>
+              <option value="Agroindustria">Agroindustria</option>
+              <option value="Comercio">Comercio</option>
+              <option value="Manufactura / industria">Manufactura / industria</option>
+              <option value="Construcción">Construcción</option>
+              <option value="Turismo y gastronomía">Turismo, gastronomía y hotelería</option>
+              <option value="Salud">Salud</option>
+              <option value="Educación">Educación</option>
+              <option value="Tecnología y digital">Tecnología y servicios digitales</option>
+              <option value="Transporte y logística">Transporte y logística</option>
+              <option value="Servicios financieros">Servicios financieros</option>
+              <option value="Administración pública">Administración pública</option>
+              <option value="Servicios sociales / Otro">Sector social y comunitario / Otro</option>
+            </select>
+          </div>
+
+          <!-- Preguntas 43 y 44 (Abiertas) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label for="q43" class="block font-semibold text-slate-800 mb-1 text-xs sm:text-sm">
+                43. Si pudiera proponer un nuevo programa o certificación para su municipio o región, ¿cuál propondría?
+              </label>
+              <textarea id="q43" name="q43" rows="3" placeholder="Nombre del programa o temática..." class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-rose-600 bg-white text-slate-800 text-xs sm:text-sm outline-none"></textarea>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label for="q44" class="block font-semibold text-slate-800 mb-1 text-xs sm:text-sm">
+                44. ¿Por qué considera que esta formación sería necesaria para el territorio?
+              </label>
+              <textarea id="q44" name="q44" rows="3" placeholder="Justificación o impacto esperado..." class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-rose-600 bg-white text-slate-800 text-xs sm:text-sm outline-none"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 10. INFORMACIÓN DE LA ORGANIZACIÓN -->
+      <!-- ========================================== -->
+      <section id="section-10" class="section-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 mb-8">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-4 mb-6">
+          <div class="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-bold text-sm">10</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-bold text-uniminuto-navy">Información de la Organización</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Datos institucionales o corporativos de referencia</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label for="q45" class="block font-semibold text-slate-800 mb-1 text-sm sm:text-base">
+              45. Si responde en representación de una empresa, institución u organización, indique su nombre:
+            </label>
+            <p class="text-xs text-slate-500 mb-2">Campo opcional.</p>
+            <input type="text" id="q45" name="q45" placeholder="Nombre de la empresa u organización..." class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-slate-700 bg-white text-slate-800 text-xs sm:text-sm outline-none">
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <label class="block font-semibold text-slate-800 mb-2 text-sm sm:text-base">
+              46. ¿Cuál es el tamaño aproximado de la organización según su número de colaboradores?
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="radio" name="q46" value="1 a 10" class="text-slate-800"><span class="ml-2">1 a 10 colaboradores</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="radio" name="q46" value="11 a 50" class="text-slate-800"><span class="ml-2">11 a 50</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="radio" name="q46" value="51 a 200" class="text-slate-800"><span class="ml-2">51 a 200</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="radio" name="q46" value="201 a 500" class="text-slate-800"><span class="ml-2">201 a 500</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="radio" name="q46" value="Más de 500" class="text-slate-800"><span class="ml-2">Más de 500</span></label>
+              <label class="flex items-center p-2.5 bg-white border border-slate-200 rounded-lg cursor-pointer"><input type="radio" name="q46" value="No sabe / No aplica" class="text-slate-800"><span class="ml-2">No sabe / No aplica</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Botón de Envío y Acciones -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-slate-500 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+          <span>Revise sus respuestas antes de enviar el formulario.</span>
+        </div>
+        <button 
+          type="submit" 
+          class="w-full sm:w-auto px-8 py-3.5 bg-uniminuto-navy hover:bg-uniminuto-blue text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-3 group text-sm sm:text-base cursor-pointer"
+        >
+          <span>Enviar Encuesta Regional</span>
+          <i class="fa-solid fa-paper-plane text-uniminuto-gold group-hover:translate-x-1 transition-transform"></i>
+        </button>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- Modal de Éxito / Resultados -->
+  <div id="success-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 text-center animate-scale-up">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="text-2xl font-bold text-uniminuto-navy mb-2">¡Encuesta Registrada Exitosamente!</h3>
+      <p class="text-slate-600 text-sm mb-6">
+        Agradecemos profundamente su valioso tiempo y aportes. La información recolectada contribuirá directamente a la toma de decisiones y al diseño de la oferta formativa pertinente para el desarrollo de la región.
+      </p>
+
+      <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-left mb-6 text-xs text-slate-700 space-y-2">
+        <div class="flex justify-between border-b pb-1">
+          <span class="font-semibold text-slate-500">Municipio de Residencia:</span>
+          <span id="modal-municipio-res" class="font-bold text-uniminuto-navy">-</span>
+        </div>
+        <div class="flex justify-between border-b pb-1">
+          <span class="font-semibold text-slate-500">Municipio de Actividad:</span>
+          <span id="modal-municipio-act" class="font-bold text-uniminuto-navy">-</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold text-slate-500">Perfil Registrado:</span>
+          <span id="modal-perfil" class="font-bold text-uniminuto-blue">-</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="exportDataJSON()" class="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition">
+          <i class="fa-solid fa-file-code text-uniminuto-blue"></i> Descargar JSON
+        </button>
+        <button onclick="exportDataCSV()" class="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition">
+          <i class="fa-solid fa-file-csv text-emerald-600"></i> Descargar CSV
+        </button>
+      </div>
+
+      <button onclick="closeModalAndReset()" class="mt-4 w-full py-2.5 bg-uniminuto-navy hover:bg-uniminuto-blue text-white font-semibold rounded-xl text-xs sm:text-sm transition">
+        Realizar un nuevo registro
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <i id="toast-icon" class="fa-solid fa-circle-info text-uniminuto-gold text-lg"></i>
+    <span id="toast-msg">Mensaje</span>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    // Matriz de Ramificación según la imagen compartida
+    const ROUTE_RULES = {
+      estudiar: {
+        name: "Persona interesada en estudiar",
+        sections: [1, 2, 3, 4, 7, 8, 9],
+        pathText: "Caracterización → Formación → Acceso → Competencias → Pertinencia → Oferta futura → Desarrollo regional"
+      },
+      estudiante: {
+        name: "Estudiante",
+        sections: [1, 2, 3, 4, 7, 8, 9],
+        pathText: "Caracterización → Formación → Acceso → Competencias → Pertinencia → Oferta futura → Desarrollo regional"
+      },
+      trabajador: {
+        name: "Trabajador / empleado",
+        sections: [1, 2, 3, 4, 5, 7, 8, 9],
+        pathText: "Caracterización → Formación → Acceso → Competencias → Talento → Pertinencia → Oferta futura → Desarrollo regional"
+      },
+      empresario: {
+        name: "Empresario / empleador",
+        sections: [1, 4, 5, 6, 7, 8, 9, 10],
+        pathText: "Caracterización → Competencias → Talento → Articulación → Pertinencia → Oferta futura → Desarrollo regional → Organización"
+      },
+      emprendedor: {
+        name: "Emprendedor",
+        sections: [1, 2, 4, 5, 6, 7, 9],
+        pathText: "Caracterización → Formación → Competencias → Talento → Articulación → Pertinencia → Desarrollo regional"
+      },
+      independiente: {
+        name: "Trabajador independiente",
+        sections: [1, 2, 4, 5, 6, 7, 9],
+        pathText: "Caracterización → Formación → Competencias → Talento → Articulación → Pertinencia → Desarrollo regional"
+      },
+      sector_publico: {
+        name: "Sector público",
+        sections: [1, 4, 5, 6, 7, 8, 9, 10],
+        pathText: "Caracterización → Competencias → Talento → Articulación → Pertinencia → Oferta futura → Desarrollo regional → Organización"
+      },
+      institucion_educativa: {
+        name: "Institución educativa",
+        sections: [1, 4, 5, 6, 7, 8, 9, 10],
+        pathText: "Caracterización → Competencias → Talento → Articulación → Pertinencia → Oferta futura → Desarrollo regional → Organización"
+      },
+      organizacion_social: {
+        name: "Organización social / comunitaria",
+        sections: [1, 4, 7, 8, 9, 10],
+        pathText: "Caracterización → Competencias → Pertinencia → Oferta futura → Desarrollo regional → Organización"
+      },
+      otro: {
+        name: "Otro perfil",
+        sections: [1, 2, 3, 4, 7, 8, 9],
+        pathText: "Caracterización → Formación → Acceso → Competencias → Pertinencia → Oferta futura → Desarrollo regional"
+      }
+    };
+
+    let currentSubmittedData = null;
+
+    // Toggle Pregunta 2 cuando se selecciona 'No aplica'
+    function toggleQ2NoAplica(checkbox) {
+      const q2Input = document.getElementById('q2');
+      if (checkbox.checked) {
+        q2Input.value = 'No aplica';
+        q2Input.disabled = true;
+        q2Input.classList.add('bg-slate-100', 'text-slate-400');
+      } else {
+        q2Input.value = '';
+        q2Input.disabled = false;
+        q2Input.classList.remove('bg-slate-100', 'text-slate-400');
+        q2Input.focus();
+      }
+      updateProgress();
+    }
+
+    // Manejo de cambio en Pregunta 3 (Condicional principal)
+    function handleProfileChange(profileKey) {
+      const config = ROUTE_RULES[profileKey] || ROUTE_RULES.otro;
+      
+      // Actualizar Banner
+      const badgeContainer = document.getElementById('route-badge-container');
+      const routeText = document.getElementById('route-path-display');
+      const routeIndicator = document.getElementById('route-indicator-text');
+      
+      badgeContainer.classList.remove('hidden');
+      routeText.innerHTML = `<strong>${config.name}:</strong> ${config.pathText}`;
+      routeIndicator.innerHTML = `<i class="fa-solid fa-compass text-uniminuto-gold"></i> Ruta: <strong class="text-uniminuto-navy font-semibold">${config.name}</strong>`;
+
+      // Ocultar / Mostrar secciones
+      for (let i = 2; i <= 10; i++) {
+        const sec = document.getElementById(`section-${i}`);
+        if (sec) {
+          if (config.sections.includes(i)) {
+            sec.style.display = 'block';
+            sec.classList.remove('opacity-30', 'pointer-events-none');
+          } else {
+            sec.style.display = 'none';
+          }
+        }
+      }
+
+      showToast(`Ruta ajustada para: ${config.name}`, 'info');
+      updateProgress();
+    }
+
+    // Toggle sub-condicional para Pregunta 32
+    function toggleQ32(val) {
+      const container = document.getElementById('q32-container');
+      if (val === 'Sí' || val === 'Probablemente sí') {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+        // Desmarcar opciones hijas
+        container.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+      }
+      updateProgress();
+    }
+
+    // Inicializar control de límites en selección múltiple (data-max)
+    function setupMultiLimits() {
+      document.querySelectorAll('.multi-limit').forEach(container => {
+        const max = parseInt(container.getAttribute('data-max'), 10);
+        const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+        checkboxes.forEach(cb => {
+          cb.addEventListener('change', () => {
+            const checkedCount = container.querySelectorAll('input[type="checkbox"]:checked').length;
+            if (checkedCount > max) {
+              cb.checked = false;
+              showToast(`Puede seleccionar un máximo de ${max} opciones para
