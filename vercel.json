@@ -1,13 +1,17 @@
 {
-     "version": 2,
-     "rewrites": [
-       {
-         "source": "/api/(.*)",
-         "destination": "/api/index.py"
-       },
-       {
-         "source": "/(.*)",
-         "destination": "/public/$1"
-       }
-     ]
-   }
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/public/dashboard.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/$1"
+    }
+  ]
+}
