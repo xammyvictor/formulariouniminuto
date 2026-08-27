@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Encuesta Regional UNIMINUTO - Formulario & Dashboard de Prospectiva</title>
+  <title>Encuesta Regional UNIMINUTO - Formulario & Dashboard Conectado</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js para gráficos del Dashboard -->
+  <!-- Chart.js para gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -22,7 +22,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen pb-24">
 
-  <!-- ==================== BARRA DE NAVEGACIÓN SUPERIOR ==================== -->
   <header class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white shadow-xl sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
@@ -31,37 +30,38 @@
         </div>
         <div>
           <h1 class="text-base sm:text-lg font-bold tracking-tight">UNIMINUTO • Estudio Regional</h1>
-          <p class="text-xs text-blue-200">Educación, Formación, Competencias y Talento</p>
+          <div class="flex items-center space-x-2">
+            <p class="text-xs text-blue-200">Educación, Formación y Talento</p>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span>
+              Google Drive Conectado
+            </span>
+          </div>
         </div>
       </div>
 
-      <!-- BOTONES DE PESTAÑAS (FORMULARIO / DASHBOARD / GOOGLE DRIVE) -->
-      <nav class="flex items-center bg-blue-950/60 p-1.5 rounded-xl border border-blue-800/60 space-x-1">
+      <!-- BOTONES DE PESTAÑAS (FORMULARIO Y DASHBOARD) -->
+      <nav class="flex items-center bg-blue-950/60 p-1.5 rounded-xl border border-blue-800/60 space-x-2">
         <button id="tabBtnSurvey" onclick="switchTab('survey')" class="nav-btn active px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center space-x-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           <span>1. Diligenciar Encuesta</span>
         </button>
         <button id="tabBtnDashboard" onclick="switchTab('dashboard')" class="nav-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-blue-200 hover:text-white transition flex items-center space-x-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-          <span>2. Dashboard & Métricas</span>
-        </button>
-        <button id="tabBtnDrive" onclick="switchTab('drive')" class="nav-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-blue-200 hover:text-white transition flex items-center space-x-2">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span>3. Conectar Google Sheets</span>
+          <span>2. Dashboard de Resultados</span>
         </button>
       </nav>
     </div>
   </header>
 
-  <!-- ==================== VISTA 1: FORMULARIO DINÁMICO ==================== -->
   <main id="viewSurvey" class="max-w-4xl mx-auto px-4 sm:px-6 mt-8">
     <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-md">
       <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-800/80 border border-blue-600/40 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-200 mb-3">
-        <span>Formulario Regional Inteligente</span>
+        <span>Formulario Dinámico y Autoguardado</span>
       </div>
       <h2 class="text-xl sm:text-2xl font-black">ENCUESTA DE NECESIDADES DE EDUCACIÓN Y TALENTO</h2>
       <p class="mt-2 text-blue-100 text-xs sm:text-sm leading-relaxed">
-        Las secciones del formulario se adaptarán automáticamente según la opción que elija en la <strong>Pregunta 3 (Perspectiva)</strong>.
+        Las secciones se activan automáticamente según la opción seleccionada en la <strong>Pregunta 3 (Perspectiva)</strong>. Toda respuesta se almacena de inmediato en la base de datos de Google Drive.
       </p>
     </div>
 
@@ -111,10 +111,10 @@
             </select>
           </div>
 
-          <!-- PREGUNTA 3 DE RAMIFICACIÓN CLAVE -->
+          <!-- PREGUNTA 3 DE RAMIFICACIÓN -->
           <div class="bg-blue-50 p-5 rounded-xl border-2 border-blue-300">
             <label class="block font-bold text-blue-950 text-sm mb-1">3. ¿Desde cuál de las siguientes perspectivas responde principalmente esta encuesta? *</label>
-            <p class="text-xs text-blue-800 mb-3">Esta selección activará automáticamente las secciones pertinentes a su perfil.</p>
+            <p class="text-xs text-blue-800 mb-3">Esta selección activará automáticamente las secciones de su perfil.</p>
             <select id="p3_perfil" name="p3_perfil" required class="w-full px-4 py-3 rounded-lg border-2 border-blue-400 bg-white focus:ring-2 focus:ring-blue-900 outline-none text-sm font-semibold text-blue-950">
               <option value="">Seleccione su perspectiva principal...</option>
               <option value="persona_estudios">Persona interesada en iniciar o continuar estudios</option>
@@ -207,7 +207,7 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">2</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Necesidades e Interés en Formación</h2>
-            <p class="text-xs text-slate-500">Expectativas académicas, preferencias y modalidades</p>
+            <p class="text-xs text-slate-500">Expectativas académicas y modalidades</p>
           </div>
         </div>
         <div class="space-y-6">
@@ -220,8 +220,6 @@
               <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Especialización" class="rounded text-blue-800"> <span>Especialización</span></label>
               <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Maestría" class="rounded text-blue-800"> <span>Maestría</span></label>
               <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Cursos cortos" class="rounded text-blue-800"> <span>Cursos cortos</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Certificaciones profesionales" class="rounded text-blue-800"> <span>Certificaciones profesionales</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Microcredenciales" class="rounded text-blue-800"> <span>Microcredenciales</span></label>
             </div>
           </div>
 
@@ -247,8 +245,7 @@
                 <option value="Presencial">Presencial</option>
                 <option value="Virtual">Virtual</option>
                 <option value="Híbrida">Híbrida</option>
-                <option value="A distancia con encuentros periódicos">A distancia</option>
-                <option value="Me resulta indiferente">Indiferente</option>
+                <option value="A distancia">A distancia</option>
               </select>
             </div>
             <div>
@@ -264,18 +261,18 @@
         </div>
       </section>
 
-      <!-- SECCIÓN 3: ACCESO ECONÓMICO -->
+      <!-- SECCIÓN 3: CONDICIONES ECONÓMICAS -->
       <section id="section-3" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
         <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">3</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Condiciones Económicas y Acceso</h2>
-            <p class="text-xs text-slate-500">Capacidad de inversión y mecanismos de financiación</p>
+            <p class="text-xs text-slate-500">Capacidad de inversión y apoyos</p>
           </div>
         </div>
         <div class="space-y-6">
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">17. Valor máximo que podría pagar por semestre universitario</label>
+            <label class="block font-semibold text-slate-800 text-sm mb-2">17. Valor máximo que podría pagar por semestre</label>
             <select name="p17_valor_semestre" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
               <option value="Menos de $1.500.000">Menos de $1.500.000</option>
               <option value="Entre $1.500.000 y $2.000.000">Entre $1.500.000 y $2.000.000</option>
@@ -283,14 +280,6 @@
               <option value="Entre $2.500.001 y $3.000.000">Entre $2.500.001 y $3.000.000</option>
               <option value="Más de $3.500.000">Más de $3.500.000</option>
             </select>
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">18. ¿Requeriría apoyo financiero?</label>
-            <div class="flex space-x-6 text-sm text-slate-700">
-              <label class="flex items-center space-x-2"><input type="radio" name="p18_apoyo_financiero" value="Sí" class="text-blue-800"> <span>Sí</span></label>
-              <label class="flex items-center space-x-2"><input type="radio" name="p18_apoyo_financiero" value="No" class="text-blue-800"> <span>No</span></label>
-              <label class="flex items-center space-x-2"><input type="radio" name="p18_apoyo_financiero" value="No está seguro(a)" class="text-blue-800"> <span>No seguro</span></label>
-            </div>
           </div>
         </div>
       </section>
@@ -301,22 +290,20 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">4</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Competencias para el Empleo</h2>
-            <p class="text-xs text-slate-500">Habilidades estratégicas y brechas actuales</p>
+            <p class="text-xs text-slate-500">Habilidades estratégicas para el futuro laboral</p>
           </div>
         </div>
-        <div class="space-y-6">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">20. Competencias más importantes para el futuro laboral <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="5">
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Comunicación efectiva" class="rounded text-blue-800"> <span>Comunicación efectiva</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Trabajo en equipo" class="rounded text-blue-800"> <span>Trabajo en equipo</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Liderazgo" class="rounded text-blue-800"> <span>Liderazgo</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Pensamiento crítico y resolución de problemas" class="rounded text-blue-800"> <span>Pensamiento crítico</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Inteligencia Artificial" class="rounded text-blue-800"> <span>Inteligencia Artificial</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Analítica de datos" class="rounded text-blue-800"> <span>Analítica de datos</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Inglés" class="rounded text-blue-800"> <span>Inglés</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Gestión de proyectos" class="rounded text-blue-800"> <span>Gestión de proyectos</span></label>
-            </div>
+        <div>
+          <label class="block font-semibold text-slate-800 text-sm mb-2">20. Competencias más importantes para el futuro laboral <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="5">
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Comunicación efectiva" class="rounded text-blue-800"> <span>Comunicación efectiva</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Trabajo en equipo" class="rounded text-blue-800"> <span>Trabajo en equipo</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Liderazgo" class="rounded text-blue-800"> <span>Liderazgo</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Pensamiento crítico" class="rounded text-blue-800"> <span>Pensamiento crítico</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Inteligencia Artificial" class="rounded text-blue-800"> <span>Inteligencia Artificial</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Analítica de datos" class="rounded text-blue-800"> <span>Analítica de datos</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Inglés" class="rounded text-blue-800"> <span>Inglés</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Gestión de proyectos" class="rounded text-blue-800"> <span>Gestión de proyectos</span></label>
           </div>
         </div>
       </section>
@@ -327,7 +314,7 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">5</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Demanda de Talento Productivo</h2>
-            <p class="text-xs text-slate-500">Dificultad de contratación y transformación por IA</p>
+            <p class="text-xs text-slate-500">Brechas y dificultad de contratación</p>
           </div>
         </div>
         <div class="space-y-6">
@@ -341,22 +328,18 @@
             </select>
           </div>
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">23. Áreas con mayores dificultades para encontrar talento <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
+            <label class="block font-semibold text-slate-800 text-sm mb-2">23. Áreas con mayores dificultades de contratación <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="5">
               <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Agroindustria" class="rounded text-blue-800"> <span>Agroindustria</span></label>
               <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Inteligencia Artificial" class="rounded text-blue-800"> <span>Inteligencia Artificial</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Sistemas y desarrollo de software" class="rounded text-blue-800"> <span>Sistemas y software</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Logística y cadena de suministro" class="rounded text-blue-800"> <span>Logística</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Finanzas y contabilidad" class="rounded text-blue-800"> <span>Finanzas</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Técnicos y operarios calificados" class="rounded text-blue-800"> <span>Técnicos calificados</span></label>
+              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Sistemas y software" class="rounded text-blue-800"> <span>Sistemas y software</span></label>
+              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Logística" class="rounded text-blue-800"> <span>Logística</span></label>
+              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Finanzas" class="rounded text-blue-800"> <span>Finanzas</span></label>
             </div>
           </div>
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">26. ¿Qué tan urgente considera fortalecer la formación de talento? (1 a 5)</label>
+            <label class="block font-semibold text-slate-800 text-sm mb-2">26. Urgencia en fortalecer la formación de talento (1 a 5)</label>
             <input type="range" min="1" max="5" value="4" name="p26_urgencia_talento" class="w-full accent-blue-900 cursor-pointer">
-            <div class="flex justify-between text-xs text-slate-500 font-semibold mt-1">
-              <span>1 - Nada</span><span>2 - Poco</span><span>3 - Moderado</span><span>4 - Urgente</span><span>5 - Muy urgente</span>
-            </div>
           </div>
         </div>
       </section>
@@ -367,11 +350,10 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">6</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Articulación Universidad–Empresa</h2>
-            <p class="text-xs text-slate-500">Alianzas, formación dual y proyectos conjuntos</p>
           </div>
         </div>
-        <div class="space-y-4">
-          <label class="block font-semibold text-slate-800 text-sm mb-1">31. ¿Interés en iniciativas conjuntas de formación con UNIMINUTO?</label>
+        <div>
+          <label class="block font-semibold text-slate-800 text-sm mb-1">31. ¿Interés en iniciativas conjuntas con UNIMINUTO?</label>
           <select name="p31_interes_articulacion" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
             <option value="Sí">Sí</option>
             <option value="Probablemente sí">Probablemente sí</option>
@@ -387,10 +369,9 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">7</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Pertinencia Educativa Regional</h2>
-            <p class="text-xs text-slate-500">Evaluación de la oferta académica actual</p>
           </div>
         </div>
-        <div class="space-y-4">
+        <div>
           <label class="block font-semibold text-slate-800 text-sm mb-1">33. ¿En qué medida la oferta actual responde a las necesidades laborales?</label>
           <select name="p33_pertinencia" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
             <option value="Responde completamente">Responde completamente</option>
@@ -408,16 +389,14 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">8</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Características de Oferta Futura</h2>
-            <p class="text-xs text-slate-500">Diseño curricular y valor agregado</p>
           </div>
         </div>
-        <div class="space-y-4">
+        <div>
           <label class="block font-semibold text-slate-800 text-sm mb-2">36. Características ideales de un nuevo programa <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700" data-max="5">
             <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Formación altamente práctica" class="rounded text-blue-800"> <span>Altamente práctica</span></label>
             <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Incorporación de Inteligencia Artificial" class="rounded text-blue-800"> <span>Incorporación de IA</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Certificaciones progresivas" class="rounded text-blue-800"> <span>Certificaciones progresivas</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Formación dual universidad-empresa" class="rounded text-blue-800"> <span>Formación dual</span></label>
+            <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Formación dual" class="rounded text-blue-800"> <span>Formación dual</span></label>
           </div>
         </div>
       </section>
@@ -428,20 +407,9 @@
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">9</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Prospectiva Regional & Propuestas</h2>
-            <p class="text-xs text-slate-500">Visión de territorio y propuestas de nuevos programas</p>
           </div>
         </div>
-        <div class="space-y-6">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">39. Áreas prioritarias para impulsar la región a 5 años <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="5">
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p39_areas_prioritarias" value="Agroindustria y desarrollo rural" class="rounded text-blue-800"> <span>Agroindustria</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p39_areas_prioritarias" value="Tecnología y transformación digital" class="rounded text-blue-800"> <span>Tecnología</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p39_areas_prioritarias" value="Inteligencia Artificial y analítica" class="rounded text-blue-800"> <span>IA y Analítica</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p39_areas_prioritarias" value="Logística y cadena de suministro" class="rounded text-blue-800"> <span>Logística</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p39_areas_prioritarias" value="Turismo y gastronomía" class="rounded text-blue-800"> <span>Turismo</span></label>
-            </div>
-          </div>
+        <div class="space-y-4">
           <div>
             <label class="block font-semibold text-slate-800 text-sm mb-2">43. Si pudiera proponer un nuevo programa para el territorio, ¿cuál propondría?</label>
             <input type="text" name="p43_propuesta" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm outline-none" placeholder="Ej: Especialización en Inteligencia Artificial Aplicada a la Agroindustria">
@@ -449,39 +417,34 @@
         </div>
       </section>
 
-      <!-- SECCIÓN 10: INFORMACIÓN ORGANIZACIONAL -->
+      <!-- SECCIÓN 10: ORGANIZACIÓN -->
       <section id="section-10" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
         <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
           <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">10</span>
           <div>
             <h2 class="text-xl font-bold text-slate-900">Información de la Organización</h2>
-            <p class="text-xs text-slate-500">Datos institucionales o empresariales</p>
           </div>
         </div>
-        <div class="space-y-4">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-1">45. Nombre de la empresa u organización (Opcional)</label>
-            <input type="text" name="p45_organizacion" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm" placeholder="Nombre de la empresa o entidad">
-          </div>
+        <div>
+          <label class="block font-semibold text-slate-800 text-sm mb-1">45. Nombre de la empresa u organización (Opcional)</label>
+          <input type="text" name="p45_organizacion" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm" placeholder="Nombre de la institución">
         </div>
       </section>
 
       <!-- BOTÓN DE ENVÍO -->
       <div class="pt-4">
         <button type="submit" id="submitBtn" class="w-full py-4 px-6 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center space-x-2">
-          <span>Enviar Encuesta Regional</span>
+          <span>Enviar y Guardar en Google Drive</span>
         </button>
       </div>
     </form>
   </main>
 
-  <!-- ==================== VISTA 2: DASHBOARD DE ESTADÍSTICAS ==================== -->
   <main id="viewDashboard" class="max-w-6xl mx-auto px-4 sm:px-6 mt-8 hidden">
-    <!-- BANNER DASHBOARD -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6 gap-4">
       <div>
         <h2 class="text-2xl font-black text-slate-900">Dashboard de Prospectiva & Brechas de Talento</h2>
-        <p class="text-xs text-slate-500 mt-1">Análisis estadístico en tiempo real de las respuestas recopiladas</p>
+        <p class="text-xs text-slate-500 mt-1">Conexión directa con Google Sheets (Google Drive)</p>
       </div>
       <div class="flex items-center gap-3">
         <button onclick="loadDashboardData()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition flex items-center space-x-1.5">
@@ -495,70 +458,63 @@
       </div>
     </div>
 
-    <!-- TARJETAS DE INDICADORES PRINCIPALES (KPIS) -->
+    <!-- TARJETAS KPIS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Respuestas</span>
         <div id="kpiTotal" class="text-3xl font-extrabold text-blue-950 mt-1">0</div>
-        <p class="text-xs text-green-600 font-medium mt-1">● Sincronizado en tiempo real</p>
+        <p class="text-xs text-green-600 font-medium mt-1">● Datos en vivo de Google Sheets</p>
       </div>
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Urgencia Formativa Regional</span>
-        <div id="kpiUrgencia" class="text-3xl font-extrabold text-indigo-900 mt-1">4.2 / 5.0</div>
-        <p class="text-xs text-slate-500 font-medium mt-1">Escala de urgencia empresarial</p>
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Urgencia Formativa</span>
+        <div id="kpiUrgencia" class="text-3xl font-extrabold text-indigo-900 mt-1">4.0 / 5.0</div>
+        <p class="text-xs text-slate-500 font-medium mt-1">Escala del sector productivo</p>
       </div>
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Área Más Demandada</span>
         <div id="kpiTopArea" class="text-lg font-bold text-slate-800 mt-2 truncate">Inteligencia Artificial</div>
-        <p class="text-xs text-blue-600 font-medium mt-1">Preferencia #1 de estudiantes</p>
+        <p class="text-xs text-blue-600 font-medium mt-1">Preferencia formativa #1</p>
       </div>
       <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Mayor Brecha Empresarial</span>
+        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Mayor Brecha Laboral</span>
         <div id="kpiTopBrecha" class="text-lg font-bold text-amber-700 mt-2 truncate">Agroindustria & IA</div>
-        <p class="text-xs text-amber-600 font-medium mt-1">Mayor dificultad de contratación</p>
+        <p class="text-xs text-amber-600 font-medium mt-1">Mayor dificultad empresarial</p>
       </div>
     </div>
 
-    <!-- SECCIÓN DE GRÁFICOS (CHART.JS) -->
+    <!-- GRÁFICOS INTERACTIVOS -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-      <!-- GRÁFICO 1: PERFILES -->
       <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">1. Distribución por Perspectiva del Participante (Pregunta 3)</h3>
+        <h3 class="font-bold text-slate-900 text-sm mb-4">1. Distribución por Perspectiva del Participante</h3>
         <div class="h-64 flex items-center justify-center">
           <canvas id="chartPerfiles"></canvas>
         </div>
       </div>
-
-      <!-- GRÁFICO 2: MUNICIPIOS -->
       <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">2. Participación por Municipio del Territorio</h3>
+        <h3 class="font-bold text-slate-900 text-sm mb-4">2. Participación por Municipio</h3>
         <div class="h-64 flex items-center justify-center">
           <canvas id="chartMunicipios"></canvas>
         </div>
       </div>
-
-      <!-- GRÁFICO 3: ÁREAS DE FORMACIÓN -->
       <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">3. Top Áreas de Formación con Mayor Demanda</h3>
+        <h3 class="font-bold text-slate-900 text-sm mb-4">3. Top Áreas de Mayor Interés Formativo</h3>
         <div class="h-64 flex items-center justify-center">
           <canvas id="chartAreas"></canvas>
         </div>
       </div>
-
-      <!-- GRÁFICO 4: BRECHAS DE TALENTO -->
       <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">4. Brechas de Talento Más Críticas en el Sector Productivo</h3>
+        <h3 class="font-bold text-slate-900 text-sm mb-4">4. Brechas de Talento Más Críticas</h3>
         <div class="h-64 flex items-center justify-center">
           <canvas id="chartBrechas"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- TABLA DE ÚLTIMAS RESPUESTAS REGISTRADAS -->
+    <!-- TABLA DE REGISTROS -->
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-        <h3 class="font-bold text-slate-900 text-sm">Últimos Registros Recibidos</h3>
-        <span class="text-xs text-slate-400">Actualización en vivo</span>
+        <h3 class="font-bold text-slate-900 text-sm">Últimos Registros en Google Drive</h3>
+        <span class="text-xs text-slate-400">Actualizado automáticamente</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs text-slate-600">
@@ -572,47 +528,9 @@
             </tr>
           </thead>
           <tbody id="tableRecordsBody" class="divide-y divide-slate-100">
-            <!-- Filas dinámicas -->
           </tbody>
         </table>
       </div>
-    </div>
-  </main>
-
-  <!-- ==================== VISTA 3: CONEXIÓN GOOGLE DRIVE / SHEETS ==================== -->
-  <main id="viewDrive" class="max-w-4xl mx-auto px-4 sm:px-6 mt-8 hidden">
-    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
-      <div class="flex items-center space-x-3 mb-4">
-        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xl">
-          📊
-        </div>
-        <div>
-          <h2 class="text-xl font-bold text-slate-900">Conectar con tu Hoja de Cálculo en Google Drive</h2>
-          <p class="text-xs text-slate-500">Guarda automáticamente cada encuesta como una nueva fila en tu Excel de Google Drive</p>
-        </div>
-      </div>
-
-      <!-- CONFIGURACIÓN DE URL DE WEBHOOK -->
-      <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6">
-        <label class="block font-bold text-slate-800 text-sm mb-1.5">URL de tu Webhook de Google Sheets (Google Apps Script)</label>
-        <div class="flex gap-2">
-          <input type="text" id="sheetsWebhookUrlInput" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm outline-none" placeholder="https://script.google.com/macros/s/.../exec">
-          <button onclick="saveSheetsUrl()" class="px-5 py-2.5 bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs rounded-lg transition whitespace-nowrap">
-            Guardar Conexión
-          </button>
-        </div>
-        <p id="sheetsSaveStatus" class="text-xs text-emerald-600 font-medium mt-2 hidden">✓ URL vinculada exitosamente. Las próximas respuestas se guardarán en tu Google Drive.</p>
-      </div>
-
-      <!-- GUÍA RÁPIDA DE 3 PASOS -->
-      <h3 class="font-bold text-slate-900 text-sm mb-3">¿Cómo crear tu enlace de Google Drive en 2 minutos?</h3>
-      <ol class="list-decimal list-inside space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
-        <li>Crea una nueva hoja en <a href="https://sheets.new" target="_blank" class="text-blue-600 font-bold underline">Google Sheets (Google Drive)</a>.</li>
-        <li>En el menú superior de tu hoja de cálculo, haz clic en <strong>Extensiones > Apps Script</strong>.</li>
-        <li>Borra todo el código que aparece y pega el script que se encuentra en la guía <strong>`GUIA_GOOGLE_SHEETS_Y_DASHBOARD.md`</strong>.</li>
-        <li>Haz clic en el botón azul <strong>Implementar > Nueva implementación > Tipo: Aplicación web</strong> (en *"Quién tiene acceso"*, selecciona <strong>Cualquier usuario</strong>).</li>
-        <li>Copia la URL que termina en <code>/exec</code> y pégala en la casilla de arriba. ¡Listo!</li>
-      </ol>
     </div>
   </main>
 
@@ -621,7 +539,7 @@
     <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
       <div class="w-16 h-16 bg-green-100 text-green-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">✓</div>
       <h3 class="text-xl font-bold text-slate-900">¡Encuesta Registrada!</h3>
-      <p class="text-slate-600 text-sm mt-2">Sus respuestas han sido guardadas exitosamente y sincronizadas con las métricas regionales.</p>
+      <p class="text-slate-600 text-sm mt-2">Sus respuestas han sido almacenadas automáticamente en la hoja de cálculo de Google Drive.</p>
       <div class="flex gap-3 mt-6">
         <button onclick="switchTab('dashboard'); document.getElementById('statusModal').classList.add('hidden');" class="flex-1 py-2.5 bg-blue-900 hover:bg-blue-800 text-white font-medium text-xs rounded-lg transition">Ver en Dashboard</button>
         <button onclick="location.reload()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs rounded-lg transition">Llenar otra</button>
@@ -629,21 +547,17 @@
     </div>
   </div>
 
-  <!-- ==================== LÓGICA JAVASCRIPT ==================== -->
   <script>
     // 1. Control de Pestañas
     function switchTab(tabId) {
       document.getElementById('viewSurvey').classList.add('hidden');
       document.getElementById('viewDashboard').classList.add('hidden');
-      document.getElementById('viewDrive').classList.add('hidden');
       
       document.getElementById('tabBtnSurvey').classList.remove('active', 'text-white');
       document.getElementById('tabBtnDashboard').classList.remove('active', 'text-white');
-      document.getElementById('tabBtnDrive').classList.remove('active', 'text-white');
       
       document.getElementById('tabBtnSurvey').classList.add('text-blue-200');
       document.getElementById('tabBtnDashboard').classList.add('text-blue-200');
-      document.getElementById('tabBtnDrive').classList.add('text-blue-200');
 
       if (tabId === 'survey') {
         document.getElementById('viewSurvey').classList.remove('hidden');
@@ -652,13 +566,10 @@
         document.getElementById('viewDashboard').classList.remove('hidden');
         document.getElementById('tabBtnDashboard').classList.add('active', 'text-white');
         loadDashboardData();
-      } else if (tabId === 'drive') {
-        document.getElementById('viewDrive').classList.remove('hidden');
-        document.getElementById('tabBtnDrive').classList.add('active', 'text-white');
       }
     }
 
-    // 2. Ramificación Condicional Estricta (Pregunta 3)
+    // 2. Ramificación Dinámica por Perfil
     const p3Select = document.getElementById('p3_perfil');
     const routingRules = {
       persona_estudios:      [1, 2, 3, 4, 7, 8, 9],
@@ -690,7 +601,7 @@
     }
     p3Select.addEventListener('change', applyBranching);
 
-    // 3. Control de Límites de Checkboxes (data-max)
+    // 3. Control de límites (data-max)
     document.querySelectorAll('[data-max]').forEach(container => {
       const max = parseInt(container.getAttribute('data-max'));
       const checkboxes = container.querySelectorAll('input[type="checkbox"]');
@@ -709,28 +620,12 @@
       });
     });
 
-    // 4. Guardado de Webhook de Google Sheets
-    let customSheetsUrl = localStorage.getItem('uniminuto_sheets_webhook') || '';
-    if (customSheetsUrl) {
-      document.getElementById('sheetsWebhookUrlInput').value = customSheetsUrl;
-    }
-
-    function saveSheetsUrl() {
-      const val = document.getElementById('sheetsWebhookUrlInput').value.trim();
-      customSheetsUrl = val;
-      localStorage.setItem('uniminuto_sheets_webhook', val);
-      document.getElementById('sheetsSaveStatus').classList.remove('hidden');
-      setTimeout(() => {
-        document.getElementById('sheetsSaveStatus').classList.add('hidden');
-      }, 4000);
-    }
-
-    // 5. Envío del Formulario
+    // 4. Envío del Formulario
     document.getElementById('surveyForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
       const formData = new FormData(form);
-      const data = { custom_sheets_url: customSheetsUrl };
+      const data = {};
 
       formData.forEach((value, key) => {
         if (!data[key]) {
@@ -745,30 +640,25 @@
 
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
-      btn.innerHTML = '<span>Procesando y Sincronizando...</span>';
+      btn.innerHTML = '<span>Guardando en Google Drive...</span>';
 
       try {
-        const response = await fetch('/api/submit', {
+        await fetch('/api/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-
-        if (response.ok) {
-          document.getElementById('statusModal').classList.remove('hidden');
-        } else {
-          document.getElementById('statusModal').classList.remove('hidden');
-        }
+        document.getElementById('statusModal').classList.remove('hidden');
       } catch (err) {
         console.error(err);
         document.getElementById('statusModal').classList.remove('hidden');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>Enviar Encuesta Regional</span>';
+        btn.innerHTML = '<span>Enviar y Guardar en Google Drive</span>';
       }
     });
 
-    // 6. Carga y Renderización del Dashboard con Chart.js
+    // 5. Carga de Métricas y Gráficos
     let charts = {};
     let cachedStats = null;
 
@@ -778,7 +668,6 @@
         const stats = await res.json();
         cachedStats = stats;
 
-        // Actualizar KPIs
         document.getElementById('kpiTotal').textContent = stats.total_respuestas;
         document.getElementById('kpiUrgencia').textContent = `${stats.promedio_urgencia} / 5.0`;
         
@@ -788,23 +677,27 @@
         const topBrecha = Object.keys(stats.top_brechas_talento)[0] || 'Agroindustria & IA';
         document.getElementById('kpiTopBrecha').textContent = topBrecha;
 
-        // Renderizar Gráficos
         renderChart('chartPerfiles', 'doughnut', Object.keys(stats.por_perfil), Object.values(stats.por_perfil), ['#1e3a8a', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#8b5cf6']);
         renderChart('chartMunicipios', 'bar', Object.keys(stats.por_municipio), Object.values(stats.por_municipio), '#3b82f6');
         renderChart('chartAreas', 'bar', Object.keys(stats.top_areas_formacion), Object.values(stats.top_areas_formacion), '#1e3a8a');
         renderChart('chartBrechas', 'bar', Object.keys(stats.top_brechas_talento), Object.values(stats.top_brechas_talento), '#f59e0b');
 
-        // Renderizar Tabla
         const tbody = document.getElementById('tableRecordsBody');
         tbody.innerHTML = '';
-        stats.ultimas_respuestas.slice().reverse().forEach(r => {
+        (stats.ultimas_respuestas || []).slice().reverse().forEach(r => {
           const tr = document.createElement('tr');
+          const time = r.timestamp_utc || r.Timestamp || 'Reciente';
+          const muni = r.p1_residencia || r.Municipio_Residencia || 'N/A';
+          const perf = r.p3_perfil || r.Perfil_P3 || 'N/A';
+          const sec = r.p6_sector || r.Sector || 'N/A';
+          const mod = r.p11_modalidad || r.Modalidad || 'N/A';
+
           tr.innerHTML = `
-            <td class="py-2.5 px-4 font-mono text-[11px]">${r.timestamp_utc ? r.timestamp_utc.substring(0,16).replace('T', ' ') : 'Reciente'}</td>
-            <td class="py-2.5 px-4 font-semibold text-slate-800">${r.p1_residencia || 'N/A'}</td>
-            <td class="py-2.5 px-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium text-[10px]">${r.p3_perfil || 'N/A'}</span></td>
-            <td class="py-2.5 px-4">${r.p6_sector || 'N/A'}</td>
-            <td class="py-2.5 px-4">${r.p11_modalidad || 'N/A'}</td>
+            <td class="py-2.5 px-4 font-mono text-[11px]">${time}</td>
+            <td class="py-2.5 px-4 font-semibold text-slate-800">${muni}</td>
+            <td class="py-2.5 px-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium text-[10px]">${perf}</span></td>
+            <td class="py-2.5 px-4">${sec}</td>
+            <td class="py-2.5 px-4">${mod}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -843,17 +736,12 @@
       });
     }
 
-    // 7. Exportación a CSV / Excel
     function exportToCSV() {
-      if (!cachedStats || !cachedStats.ultimas_respuestas) {
-        return;
-      }
-      const records = cachedStats.ultimas_respuestas;
-      let csv = 'ID,Fecha_Hora,Municipio,Perfil,Sector,Nivel_Educativo,Modalidad\n';
-      records.forEach(r => {
-        csv += `"${r.id || ''}","${r.timestamp_utc || ''}","${r.p1_residencia || ''}","${r.p3_perfil || ''}","${r.p6_sector || ''}","${r.p7_nivel_educativo || ''}","${r.p11_modalidad || ''}"\n`;
+      if (!cachedStats || !cachedStats.ultimas_respuestas) return;
+      let csv = 'ID,Fecha_Hora,Municipio,Perfil,Sector,Modalidad\n';
+      cachedStats.ultimas_respuestas.forEach(r => {
+        csv += `"${r.id || ''}","${r.timestamp_utc || r.Timestamp || ''}","${r.p1_residencia || r.Municipio_Residencia || ''}","${r.p3_perfil || r.Perfil_P3 || ''}","${r.p6_sector || r.Sector || ''}","${r.p11_modalidad || r.Modalidad || ''}"\n`;
       });
-
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
