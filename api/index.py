@@ -57,7 +57,7 @@ RESPUESTAS_EN_MEMORIA = [
 ]
 
 # Google Sheets Webhook URL (obtenida mediante Google Apps Script)
-GOOGLE_SHEETS_WEBHOOK_URL = os.environ.get("GOOGLE_SHEETS_WEBHOOK_URL", "")
+GOOGLE_SHEETS_WEBHOOK_URL = https://script.google.com/macros/s/AKfycbwv4r18zK1cN3zx4BXzP6s6xEt83Xe-NnFpjCoqlZci-v4v3rWN1m-AQ_YzPMz25d4X9g/exec
 
 #@app.get("/api")
 def health_check():
