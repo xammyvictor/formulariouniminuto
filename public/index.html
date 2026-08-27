@@ -1,755 +1,470 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Encuesta Regional UNIMINUTO - Formulario & Dashboard Conectado</title>
-  <!-- Tailwind CSS -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNIMINUTO • Estudio Regional de Formación y Talento</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js para gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .section-card { transition: all 0.25s ease-in-out; }
-    input[type="checkbox"]:disabled + span { color: #94a3b8; cursor: not-allowed; }
-    .nav-btn.active {
-      background-color: #1e3a8a;
-      color: #ffffff;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    .seccion-oculta { display: none !important; }
+    .input-base {
+      width: 100%;
+      border-radius: 0.5rem;
+      border: 1px solid #cbd5e1;
+      padding: 0.65rem 0.85rem;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+    .input-base:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen pb-24">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-  <header class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white shadow-xl sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-800/80 border border-blue-600/50 flex items-center justify-center font-black text-lg tracking-wider text-blue-200">
-          U
-        </div>
+  <!-- Header -->
+  <header class="bg-[#1e293b] text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center font-bold text-lg text-white shadow">U</div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold tracking-tight">UNIMINUTO • Estudio Regional</h1>
-          <div class="flex items-center space-x-2">
-            <p class="text-xs text-blue-200">Educación, Formación y Talento</p>
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span>
-              Google Drive Conectado
-            </span>
-          </div>
+          <h1 class="font-bold text-base md:text-lg leading-tight">UNIMINUTO • Estudio Regional</h1>
+          <p class="text-xs text-slate-300">Educación, Formación y Talento <span class="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full text-[10px] ml-1">● Conectado a Google Drive</span></p>
         </div>
       </div>
 
-      <!-- BOTONES DE PESTAÑAS (FORMULARIO Y DASHBOARD) -->
-      <nav class="flex items-center bg-blue-950/60 p-1.5 rounded-xl border border-blue-800/60 space-x-2">
-        <button id="tabBtnSurvey" onclick="switchTab('survey')" class="nav-btn active px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center space-x-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span>1. Diligenciar Encuesta</span>
+      <!-- Pestañas de Navegación -->
+      <div class="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+        <button id="btnTabForm" onclick="cambiarPestana('form')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition bg-sky-600 text-white shadow">
+          📄 1. Diligenciar Encuesta
         </button>
-        <button id="tabBtnDashboard" onclick="switchTab('dashboard')" class="nav-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold text-blue-200 hover:text-white transition flex items-center space-x-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-          <span>2. Dashboard de Resultados</span>
+        <button id="btnTabDash" onclick="cambiarPestana('dash')" class="px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition text-slate-300 hover:text-white">
+          📊 2. Dashboard de Resultados
         </button>
-      </nav>
+      </div>
     </div>
   </header>
 
-  <main id="viewSurvey" class="max-w-4xl mx-auto px-4 sm:px-6 mt-8">
-    <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-md">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-800/80 border border-blue-600/40 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-200 mb-3">
-        <span>Formulario Dinámico y Autoguardado</span>
-      </div>
-      <h2 class="text-xl sm:text-2xl font-black">ENCUESTA DE NECESIDADES DE EDUCACIÓN Y TALENTO</h2>
-      <p class="mt-2 text-blue-100 text-xs sm:text-sm leading-relaxed">
-        Las secciones se activan automáticamente según la opción seleccionada en la <strong>Pregunta 3 (Perspectiva)</strong>. Toda respuesta se almacena de inmediato en la base de datos de Google Drive.
+  <!-- CONTENEDOR 1: FORMULARIO -->
+  <main id="vistaFormulario" class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 mb-6">
+      <span class="bg-sky-100 text-sky-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Diagnóstico Territorial</span>
+      <h2 class="text-2xl font-bold text-slate-900 mt-3 mb-2">Encuesta Regional de Necesidades de Formación</h2>
+      <p class="text-slate-600 text-sm leading-relaxed">
+        UNIMINUTO está desarrollando un ejercicio de caracterización de las necesidades educativas, laborales y productivas de la región con fines académicos e institucionales. Tiempo estimado: 8 a 12 min.
       </p>
     </div>
 
-    <form id="surveyForm" class="space-y-8">
+    <form id="formularioEncuesta" class="space-y-6">
 
-      <!-- SECCIÓN 1: CARACTERIZACIÓN -->
-      <section id="section-1" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">1</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Caracterización del Participante</h2>
-            <p class="text-xs text-slate-500">Información sociodemográfica y de perfil</p>
-          </div>
+      <!-- SECCIÓN 1 -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-5">
+        <h3 class="text-lg font-bold text-slate-900 border-b pb-3">SECCIÓN 1. Caracterización del Participante</h3>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">1. ¿En qué municipio reside actualmente? *</label>
+          <select id="p1_residencia" name="p1_residencia" required class="input-base">
+            <option value="">Seleccione un municipio...</option>
+            <option value="Buga">Guadalajara de Buga</option>
+            <option value="Tuluá">Tuluá</option>
+            <option value="Guacarí">Guacarí</option>
+            <option value="Ginebra">Ginebra</option>
+            <option value="San Pedro">San Pedro</option>
+            <option value="Yotoco">Yotoco</option>
+            <option value="Restrepo">Restrepo</option>
+            <option value="Cali">Cali</option>
+            <option value="Palmira">Palmira</option>
+            <option value="Otro municipio">Otro municipio</option>
+          </select>
         </div>
 
-        <div class="space-y-6">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">1. ¿En qué municipio reside actualmente? *</label>
-            <select name="p1_residencia" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-800 outline-none text-sm bg-white">
-              <option value="">Seleccione un municipio...</option>
-              <option value="Guadalajara de Buga">Guadalajara de Buga</option>
-              <option value="Tuluá">Tuluá</option>
-              <option value="Guacarí">Guacarí</option>
-              <option value="Ginebra">Ginebra</option>
-              <option value="San Pedro">San Pedro</option>
-              <option value="Yotoco">Yotoco</option>
-              <option value="Cali">Cali</option>
-              <option value="Palmira">Palmira</option>
-              <option value="Otro municipio">Otro municipio</option>
-            </select>
-          </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">2. ¿En qué municipio desarrolla su actividad laboral o académica? *</label>
+          <select id="p2_actividad" name="p2_actividad" required class="input-base">
+            <option value="">Seleccione una opción...</option>
+            <option value="Buga">Guadalajara de Buga</option>
+            <option value="Tuluá">Tuluá</option>
+            <option value="Guacarí">Guacarí</option>
+            <option value="Ginebra">Ginebra</option>
+            <option value="San Pedro">San Pedro</option>
+            <option value="Yotoco">Yotoco</option>
+            <option value="Cali">Cali</option>
+            <option value="Otro municipio">Otro municipio</option>
+            <option value="No aplica">No aplica</option>
+          </select>
+        </div>
 
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">2. ¿En qué municipio desarrolla principalmente su actividad laboral o académica? *</label>
-            <select name="p2_actividad" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-800 outline-none text-sm bg-white">
-              <option value="">Seleccione un municipio...</option>
-              <option value="Guadalajara de Buga">Guadalajara de Buga</option>
-              <option value="Tuluá">Tuluá</option>
-              <option value="Guacarí">Guacarí</option>
-              <option value="Ginebra">Ginebra</option>
-              <option value="San Pedro">San Pedro</option>
-              <option value="Yotoco">Yotoco</option>
-              <option value="Cali">Cali</option>
-              <option value="Palmira">Palmira</option>
-              <option value="Otro municipio">Otro municipio</option>
-              <option value="No aplica">No aplica</option>
-            </select>
-          </div>
+        <div class="bg-sky-50 border border-sky-200 p-4 rounded-xl">
+          <label class="block text-sm font-bold text-sky-950 mb-1">3. ¿Desde cuál perspectiva responde principalmente esta encuesta? * (Define la ruta)</label>
+          <select id="p3_perfil" name="p3_perfil" required class="input-base bg-white" onchange="aplicarRamificacion()">
+            <option value="">Seleccione su perspectiva principal...</option>
+            <option value="Persona interesada en iniciar o continuar estudios">Persona interesada en iniciar o continuar estudios</option>
+            <option value="Estudiante">Estudiante</option>
+            <option value="Trabajador(a) / empleado(a)">Trabajador(a) / empleado(a)</option>
+            <option value="Empresario(a) / empleador(a)">Empresario(a) / empleador(a)</option>
+            <option value="Emprendedor(a)">Emprendedor(a)</option>
+            <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+            <option value="Representante de una entidad pública">Representante de una entidad pública</option>
+            <option value="Representante de una institución educativa">Representante de una institución educativa</option>
+            <option value="Representante de una organización social o comunitaria">Representante de una organización social o comunitaria</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
 
-          <!-- PREGUNTA 3 DE RAMIFICACIÓN -->
-          <div class="bg-blue-50 p-5 rounded-xl border-2 border-blue-300">
-            <label class="block font-bold text-blue-950 text-sm mb-1">3. ¿Desde cuál de las siguientes perspectivas responde principalmente esta encuesta? *</label>
-            <p class="text-xs text-blue-800 mb-3">Esta selección activará automáticamente las secciones de su perfil.</p>
-            <select id="p3_perfil" name="p3_perfil" required class="w-full px-4 py-3 rounded-lg border-2 border-blue-400 bg-white focus:ring-2 focus:ring-blue-900 outline-none text-sm font-semibold text-blue-950">
-              <option value="">Seleccione su perspectiva principal...</option>
-              <option value="persona_estudios">Persona interesada en iniciar o continuar estudios</option>
-              <option value="estudiante">Estudiante</option>
-              <option value="trabajador">Trabajador(a) / empleado(a)</option>
-              <option value="empresario">Empresario(a) / empleador(a)</option>
-              <option value="emprendedor">Emprendedor(a)</option>
-              <option value="independiente">Trabajador(a) independiente</option>
-              <option value="sector_publico">Representante de una entidad pública</option>
-              <option value="institucion_educativa">Representante de una institución educativa</option>
-              <option value="organizacion_social">Representante de una organización social o comunitaria</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">4. ¿Cuál es su relación actual con el sector laboral o productivo? *</label>
-            <select name="p4_relacion" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-              <option value="">Seleccione una opción...</option>
-              <option value="Empresario(a) / propietario(a) de empresa">Empresario(a) / propietario(a) de empresa</option>
-              <option value="Emprendedor(a)">Emprendedor(a)</option>
-              <option value="Empleado(a) del sector privado">Empleado(a) del sector privado</option>
-              <option value="Servidor(a) o colaborador(a) del sector público">Servidor(a) o colaborador(a) del sector público</option>
-              <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">4. Relación con el sector productivo</label>
+            <select id="p4_relacion" name="p4_relacion" class="input-base">
+              <option value="">Seleccione...</option>
+              <option value="Empleado sector privado">Empleado sector privado</option>
+              <option value="Servidor sector público">Servidor sector público</option>
+              <option value="Empresario / Propietario">Empresario / Propietario</option>
+              <option value="Emprendedor">Emprendedor</option>
+              <option value="Independiente">Independiente</option>
               <option value="Estudiante">Estudiante</option>
-              <option value="Actualmente no se encuentra trabajando">Actualmente no se encuentra trabajando</option>
-              <option value="Otro">Otro</option>
+              <option value="No labora actualmente">No labora actualmente</option>
             </select>
           </div>
-
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">5. ¿Cuál es su principal cargo u ocupación? *</label>
-            <select name="p5_cargo" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-              <option value="">Seleccione una opción...</option>
-              <option value="Gerencia / alta dirección">Gerencia / alta dirección</option>
-              <option value="Jefatura / coordinación / supervisión">Jefatura / coordinación / supervisión</option>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">5. Principal ocupación o cargo</label>
+            <select id="p5_cargo" name="p5_cargo" class="input-base">
+              <option value="">Seleccione...</option>
+              <option value="Gerencia / Dirección">Gerencia / Dirección</option>
+              <option value="Jefatura / Coordinación">Jefatura / Coordinación</option>
               <option value="Profesional">Profesional</option>
-              <option value="Técnico(a) / tecnólogo(a)">Técnico(a) / tecnólogo(a)</option>
-              <option value="Administrativo(a)">Administrativo(a)</option>
-              <option value="Operativo(a)">Operativo(a)</option>
-              <option value="Empresario(a) / emprendedor(a)">Empresario(a) / emprendedor(a)</option>
-              <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+              <option value="Técnico / Tecnólogo">Técnico / Tecnólogo</option>
+              <option value="Administrativo / Operativo">Administrativo / Operativo</option>
               <option value="Estudiante">Estudiante</option>
               <option value="Otro">Otro</option>
             </select>
           </div>
+        </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">6. ¿En qué sector desarrolla su actividad principal? *</label>
-            <select name="p6_sector" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-              <option value="">Seleccione un sector...</option>
-              <option value="Agropecuario">Agropecuario</option>
-              <option value="Agroindustria">Agroindustria</option>
-              <option value="Comercio">Comercio</option>
-              <option value="Manufactura / industria">Manufactura / industria</option>
-              <option value="Construcción">Construcción</option>
-              <option value="Turismo, gastronomía y hotelería">Turismo, gastronomía y hotelería</option>
-              <option value="Salud">Salud</option>
-              <option value="Educación">Educación</option>
-              <option value="Tecnología y servicios digitales">Tecnología y servicios digitales</option>
-              <option value="Transporte y logística">Transporte y logística</option>
-              <option value="Servicios financieros">Servicios financieros</option>
-              <option value="Administración pública">Administración pública</option>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">6. Sector económico de actividad</label>
+            <select id="p6_sector" name="p6_sector" class="input-base">
+              <option value="">Seleccione...</option>
+              <option value="Agropecuario y Agroindustria">Agropecuario y Agroindustria</option>
+              <option value="Comercio y Servicios">Comercio y Servicios</option>
+              <option value="Manufactura e Industria">Manufactura e Industria</option>
+              <option value="Tecnología y Servicios Digitales">Tecnología y Servicios Digitales</option>
+              <option value="Transporte y Logística">Transporte y Logística</option>
+              <option value="Salud y Educación">Salud y Educación</option>
+              <option value="Administración Pública">Administración Pública</option>
               <option value="Otro">Otro</option>
-              <option value="No aplica">No aplica</option>
             </select>
           </div>
-
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">7. Nivel educativo más alto alcanzado *</label>
-            <select name="p7_nivel_educativo" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-              <option value="">Seleccione su nivel...</option>
-              <option value="Educación básica">Educación básica</option>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">7. Nivel educativo alcanzado</label>
+            <select id="p7_nivel_educativo" name="p7_nivel_educativo" class="input-base">
+              <option value="">Seleccione...</option>
               <option value="Bachillerato">Bachillerato</option>
-              <option value="Técnico laboral">Técnico laboral</option>
-              <option value="Técnico profesional">Técnico profesional</option>
-              <option value="Tecnológico">Tecnológico</option>
-              <option value="Profesional universitario">Profesional universitario</option>
+              <option value="Técnico / Tecnológico">Técnico / Tecnológico</option>
+              <option value="Profesional Universitario">Profesional Universitario</option>
               <option value="Especialización">Especialización</option>
-              <option value="Maestría">Maestría</option>
-              <option value="Doctorado">Doctorado</option>
+              <option value="Maestría / Doctorado">Maestría / Doctorado</option>
             </select>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECCIÓN 2: FORMACIÓN -->
-      <section id="section-2" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">2</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Necesidades e Interés en Formación</h2>
-            <p class="text-xs text-slate-500">Expectativas académicas y modalidades</p>
-          </div>
-        </div>
-        <div class="space-y-6">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">8. Durante los próximos dos años, ¿qué tipo de formación le interesa? (Múltiple)</label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700">
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Técnico profesional" class="rounded text-blue-800"> <span>Técnico profesional</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Tecnológico" class="rounded text-blue-800"> <span>Tecnológico</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Profesional universitario" class="rounded text-blue-800"> <span>Profesional universitario</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Especialización" class="rounded text-blue-800"> <span>Especialización</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Maestría" class="rounded text-blue-800"> <span>Maestría</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p8_tipo_formacion" value="Cursos cortos" class="rounded text-blue-800"> <span>Cursos cortos</span></label>
-            </div>
-          </div>
-
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">10. Áreas de conocimiento de mayor interés <span class="text-blue-700 font-bold">(Máximo 3)</span></label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="3">
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Administración y gestión" class="rounded text-blue-800"> <span>Administración y gestión</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Contabilidad y finanzas" class="rounded text-blue-800"> <span>Contabilidad y finanzas</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Seguridad y salud en el trabajo" class="rounded text-blue-800"> <span>SST</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Inteligencia Artificial" class="rounded text-blue-800"> <span>Inteligencia Artificial</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Analítica y ciencia de datos" class="rounded text-blue-800"> <span>Analítica de datos</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Logística y cadena de suministro" class="rounded text-blue-800"> <span>Logística y suministros</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Agroindustria y desarrollo rural" class="rounded text-blue-800"> <span>Agroindustria</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Salud" class="rounded text-blue-800"> <span>Salud</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p10_areas" value="Educación y pedagogía" class="rounded text-blue-800"> <span>Educación</span></label>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block font-semibold text-slate-800 text-sm mb-2">11. Modalidad preferida</label>
-              <select name="p11_modalidad" class="w-full px-4 py-2 rounded-lg border border-slate-300 text-sm bg-white">
-                <option value="Presencial">Presencial</option>
-                <option value="Virtual">Virtual</option>
-                <option value="Híbrida">Híbrida</option>
-                <option value="A distancia">A distancia</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-semibold text-slate-800 text-sm mb-2">12. Horario preferido</label>
-              <select name="p12_horario" class="w-full px-4 py-2 rounded-lg border border-slate-300 text-sm bg-white">
-                <option value="Jornada diurna">Jornada diurna</option>
-                <option value="Jornada nocturna">Jornada nocturna</option>
-                <option value="Fines de semana">Fines de semana</option>
-                <option value="Horarios flexibles">Horarios flexibles</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECCIÓN 3: CONDICIONES ECONÓMICAS -->
-      <section id="section-3" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">3</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Condiciones Económicas y Acceso</h2>
-            <p class="text-xs text-slate-500">Capacidad de inversión y apoyos</p>
-          </div>
-        </div>
-        <div class="space-y-6">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">17. Valor máximo que podría pagar por semestre</label>
-            <select name="p17_valor_semestre" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-              <option value="Menos de $1.500.000">Menos de $1.500.000</option>
-              <option value="Entre $1.500.000 y $2.000.000">Entre $1.500.000 y $2.000.000</option>
-              <option value="Entre $2.000.001 y $2.500.000">Entre $2.000.001 y $2.500.000</option>
-              <option value="Entre $2.500.001 y $3.000.000">Entre $2.500.001 y $3.000.000</option>
-              <option value="Más de $3.500.000">Más de $3.500.000</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECCIÓN 4: COMPETENCIAS -->
-      <section id="section-4" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">4</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Competencias para el Empleo</h2>
-            <p class="text-xs text-slate-500">Habilidades estratégicas para el futuro laboral</p>
-          </div>
-        </div>
+      <div id="sec2" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-5">
+        <h3 class="text-lg font-bold text-slate-900 border-b pb-3">SECCIÓN 2. Necesidades e Interés en Formación</h3>
+        
         <div>
-          <label class="block font-semibold text-slate-800 text-sm mb-2">20. Competencias más importantes para el futuro laboral <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="5">
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Comunicación efectiva" class="rounded text-blue-800"> <span>Comunicación efectiva</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Trabajo en equipo" class="rounded text-blue-800"> <span>Trabajo en equipo</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Liderazgo" class="rounded text-blue-800"> <span>Liderazgo</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Pensamiento crítico" class="rounded text-blue-800"> <span>Pensamiento crítico</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Inteligencia Artificial" class="rounded text-blue-800"> <span>Inteligencia Artificial</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Analítica de datos" class="rounded text-blue-800"> <span>Analítica de datos</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Inglés" class="rounded text-blue-800"> <span>Inglés</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p20_competencias" value="Gestión de proyectos" class="rounded text-blue-800"> <span>Gestión de proyectos</span></label>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">10. Áreas de conocimiento de mayor interés (Seleccione las principales)</label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Inteligencia Artificial" /> Inteligencia Artificial</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Analítica y Ciencia de Datos" /> Analítica y Ciencia de Datos</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Ingeniería Industrial y Procesos" /> Ingeniería Industrial y Procesos</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Logística y Cadena de Suministro" /> Logística y Cadena de Suministro</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Administración y Gestión" /> Administración y Gestión</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Agroindustria y Desarrollo Rural" /> Agroindustria y Desarrollo Rural</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Ciberseguridad y Software" /> Ciberseguridad y Software</label>
+            <label class="flex items-center gap-2"><input type="checkbox" name="p10_areas" value="Sostenibilidad y Gestión Ambiental" /> Sostenibilidad y Gestión Ambiental</label>
           </div>
         </div>
-      </section>
 
-      <!-- SECCIÓN 5: TALENTO DEL SECTOR PRODUCTIVO -->
-      <section id="section-5" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">5</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h2 class="text-xl font-bold text-slate-900">Demanda de Talento Productivo</h2>
-            <p class="text-xs text-slate-500">Brechas y dificultad de contratación</p>
-          </div>
-        </div>
-        <div class="space-y-6">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">22. ¿Existen dificultades en su sector para encontrar talento?</label>
-            <select name="p22_dificultad_talento" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-              <option value="Sí, frecuentemente">Sí, frecuentemente</option>
-              <option value="Sí, ocasionalmente">Sí, ocasionalmente</option>
-              <option value="No">No</option>
-              <option value="No sabe">No sabe</option>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">11. Modalidad preferida</label>
+            <select id="p11_modalidad" name="p11_modalidad" class="input-base">
+              <option value="">Seleccione...</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Virtual">Virtual</option>
+              <option value="Híbrida">Híbrida</option>
+              <option value="A distancia con encuentros periódicos">A distancia con encuentros</option>
             </select>
           </div>
           <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">23. Áreas con mayores dificultades de contratación <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm text-slate-700" data-max="5">
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Agroindustria" class="rounded text-blue-800"> <span>Agroindustria</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Inteligencia Artificial" class="rounded text-blue-800"> <span>Inteligencia Artificial</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Sistemas y software" class="rounded text-blue-800"> <span>Sistemas y software</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Logística" class="rounded text-blue-800"> <span>Logística</span></label>
-              <label class="flex items-center space-x-2"><input type="checkbox" name="p23_areas_dificultad" value="Finanzas" class="rounded text-blue-800"> <span>Finanzas</span></label>
-            </div>
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">26. Urgencia en fortalecer la formación de talento (1 a 5)</label>
-            <input type="range" min="1" max="5" value="4" name="p26_urgencia_talento" class="w-full accent-blue-900 cursor-pointer">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">12. Horario preferido</label>
+            <select id="p12_horario" name="p12_horario" class="input-base">
+              <option value="">Seleccione...</option>
+              <option value="Jornada diurna">Jornada diurna</option>
+              <option value="Jornada nocturna">Jornada nocturna</option>
+              <option value="Fines de semana">Fines de semana</option>
+              <option value="Asincrónica / Flexible">Asincrónica / Flexible</option>
+            </select>
           </div>
         </div>
-      </section>
+      </div>
 
-      <!-- SECCIÓN 6: ARTICULACIÓN -->
-      <section id="section-6" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">6</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Articulación Universidad–Empresa</h2>
-          </div>
-        </div>
+      <!-- SECCIÓN 5: TALENTO -->
+      <div id="sec5" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-5">
+        <h3 class="text-lg font-bold text-slate-900 border-b pb-3">SECCIÓN 5. Necesidades de Talento del Sector Productivo</h3>
+        
         <div>
-          <label class="block font-semibold text-slate-800 text-sm mb-1">31. ¿Interés en iniciativas conjuntas con UNIMINUTO?</label>
-          <select name="p31_interes_articulacion" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-            <option value="Sí">Sí</option>
-            <option value="Probablemente sí">Probablemente sí</option>
-            <option value="Probablemente no">Probablemente no</option>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">22. ¿Existen dificultades para encontrar talento calificado en su sector?</label>
+          <select id="p22_dificultad" name="p22_dificultad" class="input-base">
+            <option value="">Seleccione...</option>
+            <option value="Sí, frecuentemente">Sí, frecuentemente</option>
+            <option value="Sí, ocasionalmente">Sí, ocasionalmente</option>
             <option value="No">No</option>
+            <option value="No sabe">No sabe</option>
           </select>
         </div>
-      </section>
 
-      <!-- SECCIÓN 7: PERTINENCIA -->
-      <section id="section-7" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">7</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Pertinencia Educativa Regional</h2>
-          </div>
-        </div>
         <div>
-          <label class="block font-semibold text-slate-800 text-sm mb-1">33. ¿En qué medida la oferta actual responde a las necesidades laborales?</label>
-          <select name="p33_pertinencia" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm bg-white">
-            <option value="Responde completamente">Responde completamente</option>
-            <option value="Responde en gran medida">Responde en gran medida</option>
-            <option value="Responde parcialmente">Responde parcialmente</option>
-            <option value="Responde poco">Responde poco</option>
-            <option value="No responde">No responde</option>
-          </select>
-        </div>
-      </section>
-
-      <!-- SECCIÓN 8: OFERTA FUTURA -->
-      <section id="section-8" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">8</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Características de Oferta Futura</h2>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">26. Urgencia en fortalecer formación de talento humano (1: Nada urgente a 5: Muy urgente)</label>
+          <input type="range" id="p26_urgencia_talento" name="p26_urgencia_talento" min="1" max="5" value="4" class="w-full accent-sky-600" oninput="document.getElementById('lblUrgencia').textContent = this.value" />
+          <div class="flex justify-between text-xs text-slate-500 font-bold">
+            <span>1 (Baja)</span>
+            <span id="lblUrgencia" class="text-sky-700 text-base font-extrabold">4</span>
+            <span>5 (Muy urgente)</span>
           </div>
         </div>
+      </div>
+
+      <!-- SECCIÓN 9: PROSPECTIVA -->
+      <div id="sec9" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-5">
+        <h3 class="text-lg font-bold text-slate-900 border-b pb-3">SECCIÓN 9. Prospectiva Regional</h3>
         <div>
-          <label class="block font-semibold text-slate-800 text-sm mb-2">36. Características ideales de un nuevo programa <span class="text-blue-700 font-bold">(Máximo 5)</span></label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700" data-max="5">
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Formación altamente práctica" class="rounded text-blue-800"> <span>Altamente práctica</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Incorporación de Inteligencia Artificial" class="rounded text-blue-800"> <span>Incorporación de IA</span></label>
-            <label class="flex items-center space-x-2"><input type="checkbox" name="p36_caracteristicas_programa" value="Formación dual" class="rounded text-blue-800"> <span>Formación dual</span></label>
-          </div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">43. ¿Qué nuevo programa o formación propondría para el desarrollo de la región?</label>
+          <input type="text" id="p43_propuesta" name="p43_propuesta" placeholder="Ej: Diplomado en IA Aplicada a Procesos Agroindustriales..." class="input-base" />
         </div>
-      </section>
+      </div>
 
-      <!-- SECCIÓN 9: DESARROLLO REGIONAL -->
-      <section id="section-9" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">9</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Prospectiva Regional & Propuestas</h2>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <div>
-            <label class="block font-semibold text-slate-800 text-sm mb-2">43. Si pudiera proponer un nuevo programa para el territorio, ¿cuál propondría?</label>
-            <input type="text" name="p43_propuesta" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm outline-none" placeholder="Ej: Especialización en Inteligencia Artificial Aplicada a la Agroindustria">
-          </div>
-        </div>
-      </section>
-
-      <!-- SECCIÓN 10: ORGANIZACIÓN -->
-      <section id="section-10" class="section-card bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 hidden">
-        <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4">
-          <span class="bg-blue-900 text-white font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm shadow">10</span>
-          <div>
-            <h2 class="text-xl font-bold text-slate-900">Información de la Organización</h2>
-          </div>
-        </div>
-        <div>
-          <label class="block font-semibold text-slate-800 text-sm mb-1">45. Nombre de la empresa u organización (Opcional)</label>
-          <input type="text" name="p45_organizacion" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm" placeholder="Nombre de la institución">
-        </div>
-      </section>
-
-      <!-- BOTÓN DE ENVÍO -->
+      <!-- Botón de Envío -->
       <div class="pt-4">
-        <button type="submit" id="submitBtn" class="w-full py-4 px-6 bg-blue-900 hover:bg-blue-800 active:bg-blue-950 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center space-x-2">
-          <span>Enviar y Guardar en Google Drive</span>
+        <button type="submit" id="btnEnviar" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition duration-200 flex justify-center items-center gap-2 text-base">
+          <span>Enviar Encuesta Regional</span>
         </button>
       </div>
     </form>
   </main>
 
-  <main id="viewDashboard" class="max-w-6xl mx-auto px-4 sm:px-6 mt-8 hidden">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6 gap-4">
+  <!-- CONTENEDOR 2: DASHBOARD -->
+  <main id="vistaDashboard" class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full seccion-oculta space-y-6">
+    
+    <!-- Encabezado del Dashboard -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4">
       <div>
-        <h2 class="text-2xl font-black text-slate-900">Dashboard de Prospectiva & Brechas de Talento</h2>
-        <p class="text-xs text-slate-500 mt-1">Conexión directa con Google Sheets (Google Drive)</p>
+        <h2 class="text-xl font-bold text-slate-900">Dashboard de Prospectiva & Brechas de Talento</h2>
+        <p class="text-xs text-slate-500">Datos consultados en tiempo real desde Google Sheets (Google Drive)</p>
       </div>
-      <div class="flex items-center gap-3">
-        <button onclick="loadDashboardData()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition flex items-center space-x-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-          <span>Actualizar Datos</span>
-        </button>
-        <button onclick="exportToCSV()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow transition flex items-center space-x-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span>Descargar Excel (CSV)</span>
+      <div class="flex gap-2">
+        <button onclick="cargarEstadisticas()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs md:text-sm font-bold py-2 px-4 rounded-xl border border-slate-300 transition">
+          🔄 Actualizar Datos
         </button>
       </div>
     </div>
 
-    <!-- TARJETAS KPIS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Respuestas</span>
-        <div id="kpiTotal" class="text-3xl font-extrabold text-blue-950 mt-1">0</div>
-        <p class="text-xs text-green-600 font-medium mt-1">● Datos en vivo de Google Sheets</p>
+    <!-- KPIs -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Respuestas</span>
+        <div id="totalRespuestas" class="text-3xl font-black text-slate-900 mt-2">0</div>
+        <span class="text-[11px] text-emerald-600 font-semibold">● Datos en vivo</span>
       </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Urgencia Formativa</span>
-        <div id="kpiUrgencia" class="text-3xl font-extrabold text-indigo-900 mt-1">4.0 / 5.0</div>
-        <p class="text-xs text-slate-500 font-medium mt-1">Escala del sector productivo</p>
+
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Urgencia Formativa</span>
+        <div id="urgenciaPromedio" class="text-3xl font-black text-sky-600 mt-2">0.0 / 5.0</div>
+        <span class="text-[11px] text-slate-500">Escala sector productivo</span>
       </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Área Más Demandada</span>
-        <div id="kpiTopArea" class="text-lg font-bold text-slate-800 mt-2 truncate">Inteligencia Artificial</div>
-        <p class="text-xs text-blue-600 font-medium mt-1">Preferencia formativa #1</p>
+
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Área Más Demandada</span>
+        <div id="areaDemandada" class="text-base font-bold text-slate-800 mt-2 truncate">Cargando...</div>
+        <span class="text-[11px] text-sky-600 font-semibold">Preferencia formativa #1</span>
       </div>
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Mayor Brecha Laboral</span>
-        <div id="kpiTopBrecha" class="text-lg font-bold text-amber-700 mt-2 truncate">Agroindustria & IA</div>
-        <p class="text-xs text-amber-600 font-medium mt-1">Mayor dificultad empresarial</p>
+
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Perfil Predominante</span>
+        <div id="perfilMayor" class="text-base font-bold text-amber-700 mt-2 truncate">Cargando...</div>
+        <span class="text-[11px] text-slate-500">Mayoría de participación</span>
       </div>
     </div>
 
-    <!-- GRÁFICOS INTERACTIVOS -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">1. Distribución por Perspectiva del Participante</h3>
-        <div class="h-64 flex items-center justify-center">
+    <!-- Gráficos -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="font-bold text-slate-800 text-sm mb-4">1. Distribución por Perspectiva del Participante</h3>
+        <div style="position: relative; height: 280px;">
           <canvas id="chartPerfiles"></canvas>
         </div>
       </div>
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">2. Participación por Municipio</h3>
-        <div class="h-64 flex items-center justify-center">
+
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="font-bold text-slate-800 text-sm mb-4">2. Participación por Municipio</h3>
+        <div style="position: relative; height: 280px;">
           <canvas id="chartMunicipios"></canvas>
         </div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">3. Top Áreas de Mayor Interés Formativo</h3>
-        <div class="h-64 flex items-center justify-center">
-          <canvas id="chartAreas"></canvas>
-        </div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h3 class="font-bold text-slate-900 text-sm mb-4">4. Brechas de Talento Más Críticas</h3>
-        <div class="h-64 flex items-center justify-center">
-          <canvas id="chartBrechas"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- TABLA DE REGISTROS -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-        <h3 class="font-bold text-slate-900 text-sm">Últimos Registros en Google Drive</h3>
-        <span class="text-xs text-slate-400">Actualizado automáticamente</span>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs text-slate-600">
-          <thead class="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px]">
-            <tr>
-              <th class="py-3 px-4">Fecha/Hora</th>
-              <th class="py-3 px-4">Municipio</th>
-              <th class="py-3 px-4">Perfil</th>
-              <th class="py-3 px-4">Sector</th>
-              <th class="py-3 px-4">Modalidad</th>
-            </tr>
-          </thead>
-          <tbody id="tableRecordsBody" class="divide-y divide-slate-100">
-          </tbody>
-        </table>
       </div>
     </div>
   </main>
 
-  <!-- MODAL DE ÉXITO -->
-  <div id="statusModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div class="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
-      <div class="w-16 h-16 bg-green-100 text-green-700 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">✓</div>
-      <h3 class="text-xl font-bold text-slate-900">¡Encuesta Registrada!</h3>
-      <p class="text-slate-600 text-sm mt-2">Sus respuestas han sido almacenadas automáticamente en la hoja de cálculo de Google Drive.</p>
-      <div class="flex gap-3 mt-6">
-        <button onclick="switchTab('dashboard'); document.getElementById('statusModal').classList.add('hidden');" class="flex-1 py-2.5 bg-blue-900 hover:bg-blue-800 text-white font-medium text-xs rounded-lg transition">Ver en Dashboard</button>
-        <button onclick="location.reload()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs rounded-lg transition">Llenar otra</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // 1. Control de Pestañas
-    function switchTab(tabId) {
-      document.getElementById('viewSurvey').classList.add('hidden');
-      document.getElementById('viewDashboard').classList.add('hidden');
-      
-      document.getElementById('tabBtnSurvey').classList.remove('active', 'text-white');
-      document.getElementById('tabBtnDashboard').classList.remove('active', 'text-white');
-      
-      document.getElementById('tabBtnSurvey').classList.add('text-blue-200');
-      document.getElementById('tabBtnDashboard').classList.add('text-blue-200');
+    // 1. Manejo de Pestañas
+    function cambiarPestana(tipo) {
+      const vForm = document.getElementById("vistaFormulario");
+      const vDash = document.getElementById("vistaDashboard");
+      const btnForm = document.getElementById("btnTabForm");
+      const btnDash = document.getElementById("btnTabDash");
 
-      if (tabId === 'survey') {
-        document.getElementById('viewSurvey').classList.remove('hidden');
-        document.getElementById('tabBtnSurvey').classList.add('active', 'text-white');
-      } else if (tabId === 'dashboard') {
-        document.getElementById('viewDashboard').classList.remove('hidden');
-        document.getElementById('tabBtnDashboard').classList.add('active', 'text-white');
-        loadDashboardData();
+      if (tipo === 'form') {
+        vForm.classList.remove("seccion-oculta");
+        vDash.classList.add("seccion-oculta");
+        btnForm.className = "px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition bg-sky-600 text-white shadow";
+        btnDash.className = "px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition text-slate-300 hover:text-white";
+      } else {
+        vForm.classList.add("seccion-oculta");
+        vDash.classList.remove("seccion-oculta");
+        btnDash.className = "px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition bg-sky-600 text-white shadow";
+        btnForm.className = "px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition text-slate-300 hover:text-white";
+        cargarEstadisticas();
       }
     }
 
-    // 2. Ramificación Dinámica por Perfil
-    const p3Select = document.getElementById('p3_perfil');
-    const routingRules = {
-      persona_estudios:      [1, 2, 3, 4, 7, 8, 9],
-      estudiante:            [1, 2, 3, 4, 7, 8, 9],
-      trabajador:            [1, 2, 3, 4, 5, 7, 8, 9],
-      empresario:            [1, 4, 5, 6, 7, 8, 9, 10],
-      emprendedor:           [1, 2, 4, 5, 6, 7, 9],
-      independiente:         [1, 2, 4, 5, 7, 8, 9],
-      sector_publico:        [1, 4, 5, 6, 7, 8, 9, 10],
-      institucion_educativa: [1, 4, 5, 6, 7, 8, 9, 10],
-      organizacion_social:   [1, 4, 7, 8, 9, 10],
-      otro:                  [1, 4, 7, 8, 9]
-    };
+    // 2. Lógica de Ramificación
+    function aplicarRamificacion() {
+      const perfil = document.getElementById("p3_perfil").value;
+      const s2 = document.getElementById("sec2");
+      const s5 = document.getElementById("sec5");
 
-    function applyBranching() {
-      const selectedRole = p3Select.value;
-      const activeSections = routingRules[selectedRole] || [1];
-
-      for (let i = 2; i <= 10; i++) {
-        const sectionEl = document.getElementById(`section-${i}`);
-        if (sectionEl) {
-          if (activeSections.includes(i)) {
-            sectionEl.classList.remove('hidden');
-          } else {
-            sectionEl.classList.add('hidden');
-          }
-        }
+      if (perfil.includes("Persona interesada") || perfil.includes("Estudiante")) {
+        s2.classList.remove("seccion-oculta");
+        s5.classList.add("seccion-oculta");
+      } else if (perfil.includes("Empresario") || perfil.includes("entidad pública") || perfil.includes("institución")) {
+        s2.classList.add("seccion-oculta");
+        s5.classList.remove("seccion-oculta");
+      } else {
+        s2.classList.remove("seccion-oculta");
+        s5.classList.remove("seccion-oculta");
       }
     }
-    p3Select.addEventListener('change', applyBranching);
 
-    // 3. Control de límites (data-max)
-    document.querySelectorAll('[data-max]').forEach(container => {
-      const max = parseInt(container.getAttribute('data-max'));
-      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
-      
-      checkboxes.forEach(cb => {
-        cb.addEventListener('change', () => {
-          const checkedCount = container.querySelectorAll('input[type="checkbox"]:checked').length;
-          if (checkedCount >= max) {
-            checkboxes.forEach(item => {
-              if (!item.checked) item.disabled = true;
-            });
-          } else {
-            checkboxes.forEach(item => item.disabled = false);
-          }
-        });
-      });
-    });
-
-    // 4. Envío del Formulario
-    document.getElementById('surveyForm').addEventListener('submit', async (e) => {
+    // 3. Envío del Formulario
+    document.getElementById("formularioEncuesta").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
-      const data = {};
-
-      formData.forEach((value, key) => {
-        if (!data[key]) {
-          data[key] = value;
-        } else {
-          if (!Array.isArray(data[key])) {
-            data[key] = [data[key]];
-          }
-          data[key].push(value);
-        }
-      });
-
-      const btn = document.getElementById('submitBtn');
+      const btn = document.getElementById("btnEnviar");
       btn.disabled = true;
-      btn.innerHTML = '<span>Guardando en Google Drive...</span>';
+      btn.innerHTML = "<span>Enviando respuesta...</span>";
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      
+      const areasSeleccionadas = Array.from(document.querySelectorAll("input[name='p10_areas']:checked")).map(c => c.value);
+      data.p10_areas = areasSeleccionadas;
 
       try {
-        await fetch('/api/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const res = await fetch("/api/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-        document.getElementById('statusModal').classList.remove('hidden');
+        if (res.ok) {
+          alert("¡Muchas gracias! Tu respuesta fue registrada en Google Drive exitosamente.");
+          e.target.reset();
+          cambiarPestana('dash');
+        } else {
+          alert("Hubo un problema al registrar la respuesta.");
+        }
       } catch (err) {
-        console.error(err);
-        document.getElementById('statusModal').classList.remove('hidden');
+        alert("Error de conexión al guardar.");
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>Enviar y Guardar en Google Drive</span>';
+        btn.innerHTML = "<span>Enviar Encuesta Regional</span>";
       }
     });
 
-    // 5. Carga de Métricas y Gráficos
-    let charts = {};
-    let cachedStats = null;
+    // 4. Renderizado de Gráficos del Dashboard
+    let chartPerfiles = null;
+    let chartMunicipios = null;
 
-    async function loadDashboardData() {
+    async function cargarEstadisticas() {
       try {
-        const res = await fetch('/api/stats');
-        const stats = await res.json();
-        cachedStats = stats;
+        const res = await fetch("/api/stats");
+        const data = await res.json();
 
-        document.getElementById('kpiTotal').textContent = stats.total_respuestas;
-        document.getElementById('kpiUrgencia').textContent = `${stats.promedio_urgencia} / 5.0`;
+        // Actualizar KPIs
+        document.getElementById("totalRespuestas").textContent = data.total_respuestas || 0;
         
-        const topArea = Object.keys(stats.top_areas_formacion)[0] || 'Inteligencia Artificial';
-        document.getElementById('kpiTopArea').textContent = topArea;
+        let urg = data.urgencia_promedio || "0.0";
+        if (typeof urg === "string" && urg.includes("/")) urg = urg.split("/")[0];
+        document.getElementById("urgenciaPromedio").textContent = `${urg} / 5.0`;
 
-        const topBrecha = Object.keys(stats.top_brechas_talento)[0] || 'Agroindustria & IA';
-        document.getElementById('kpiTopBrecha').textContent = topBrecha;
+        document.getElementById("areaDemandada").textContent = data.area_mas_demandada || "Sin datos";
+        document.getElementById("perfilMayor").textContent = data.perfil_predominante || "Sin datos";
 
-        renderChart('chartPerfiles', 'doughnut', Object.keys(stats.por_perfil), Object.values(stats.por_perfil), ['#1e3a8a', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#8b5cf6']);
-        renderChart('chartMunicipios', 'bar', Object.keys(stats.por_municipio), Object.values(stats.por_municipio), '#3b82f6');
-        renderChart('chartAreas', 'bar', Object.keys(stats.top_areas_formacion), Object.values(stats.top_areas_formacion), '#1e3a8a');
-        renderChart('chartBrechas', 'bar', Object.keys(stats.top_brechas_talento), Object.values(stats.top_brechas_talento), '#f59e0b');
+        // Gráfico 1: Perfiles
+        const perfilesKeys = Object.keys(data.perfiles || {});
+        const perfilesVals = Object.values(data.perfiles || {});
+        const ctxP = document.getElementById("chartPerfiles")?.getContext("2d");
 
-        const tbody = document.getElementById('tableRecordsBody');
-        tbody.innerHTML = '';
-        (stats.ultimas_respuestas || []).slice().reverse().forEach(r => {
-          const tr = document.createElement('tr');
-          const time = r.timestamp_utc || r.Timestamp || 'Reciente';
-          const muni = r.p1_residencia || r.Municipio_Residencia || 'N/A';
-          const perf = r.p3_perfil || r.Perfil_P3 || 'N/A';
-          const sec = r.p6_sector || r.Sector || 'N/A';
-          const mod = r.p11_modalidad || r.Modalidad || 'N/A';
-
-          tr.innerHTML = `
-            <td class="py-2.5 px-4 font-mono text-[11px]">${time}</td>
-            <td class="py-2.5 px-4 font-semibold text-slate-800">${muni}</td>
-            <td class="py-2.5 px-4"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium text-[10px]">${perf}</span></td>
-            <td class="py-2.5 px-4">${sec}</td>
-            <td class="py-2.5 px-4">${mod}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-      } catch (err) {
-        console.error('Error cargando estadísticas:', err);
-      }
-    }
-
-    function renderChart(canvasId, type, labels, data, colors) {
-      if (charts[canvasId]) {
-        charts[canvasId].destroy();
-      }
-      const ctx = document.getElementById(canvasId).getContext('2d');
-      charts[canvasId] = new Chart(ctx, {
-        type: type,
-        data: {
-          labels: labels,
-          datasets: [{
-            data: data,
-            backgroundColor: colors,
-            borderWidth: 1,
-            borderRadius: type === 'bar' ? 6 : 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: type === 'doughnut', position: 'bottom' }
-          },
-          scales: type === 'bar' ? {
-            y: { beginAtZero: true, ticks: { stepSize: 1 } }
-          } : {}
+        if (ctxP) {
+          if (chartPerfiles) chartPerfiles.destroy();
+          chartPerfiles = new Chart(ctxP, {
+            type: "doughnut",
+            data: {
+              labels: perfilesKeys.length ? perfilesKeys : ["Sin registros"],
+              datasets: [{
+                data: perfilesVals.length ? perfilesVals : [1],
+                backgroundColor: ["#0284c7", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4"]
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 10 } } } }
+            }
+          });
         }
-      });
-    }
 
-    function exportToCSV() {
-      if (!cachedStats || !cachedStats.ultimas_respuestas) return;
-      let csv = 'ID,Fecha_Hora,Municipio,Perfil,Sector,Modalidad\n';
-      cachedStats.ultimas_respuestas.forEach(r => {
-        csv += `"${r.id || ''}","${r.timestamp_utc || r.Timestamp || ''}","${r.p1_residencia || r.Municipio_Residencia || ''}","${r.p3_perfil || r.Perfil_P3 || ''}","${r.p6_sector || r.Sector || ''}","${r.p11_modalidad || r.Modalidad || ''}"\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `encuesta_uniminuto_${new Date().toISOString().slice(0,10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+        // Gráfico 2: Municipios
+        const munKeys = Object.keys(data.municipios || {});
+        const munVals = Object.values(data.municipios || {});
+        const ctxM = document.getElementById("chartMunicipios")?.getContext("2d");
+
+        if (ctxM) {
+          if (chartMunicipios) chartMunicipios.destroy();
+          chartMunicipios = new Chart(ctxM, {
+            type: "bar",
+            data: {
+              labels: munKeys.length ? munKeys : ["Sin registros"],
+              datasets: [{
+                label: "Participantes",
+                data: munVals.length ? munVals : [0],
+                backgroundColor: "#0284c7",
+                borderRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+              plugins: { legend: { display: false } }
+            }
+          });
+        }
+      } catch (err) {
+        console.error("Error cargando estadísticas:", err);
+      }
     }
   </script>
 </body>
