@@ -53,7 +53,7 @@ async def receive_survey(request: Request):
                     timeout=15
                 )
             except Exception as e_sheet:
-                print(f"[ERROR SHEETS]: {str(e_sheet)}")
+                print(f"[ERROR SHEETS POST]: {str(e_sheet)}")
 
         return {
             "success": True,
@@ -68,7 +68,6 @@ async def receive_survey(request: Request):
 @app.get("/api/stats")
 def get_stats():
     try:
-        # Consulta las filas desde Google Apps Script (doGet)
         res = requests.get(GOOGLE_SHEETS_WEBHOOK_URL, allow_redirects=True, timeout=15)
         raw_data = res.json() if res.status_code == 200 else []
         
@@ -86,9 +85,20 @@ def get_stats():
                 "ultimas_respuestas": []
             }
             
-        municipios = Counter([r.get("Municipio Residencia") or r.get("p1_residencia") for r in raw_data if r.get("Municipio Residencia") or r.get("p1_residencia")])
-        perfiles = Counter([r.get("Perfil / Perspectiva") or r.get("p3_perfil") for r in raw_data if r.get("Perfil / Perspectiva") or r.get("p3_perfil")])
-        modalidades = Counter([r.get("Modalidad Preferida") or r.get("p11_modalidad") for r in raw_data if r.get("Modalidad Preferida") or r.get("p11_modalidad")])
+        municipios = Counter([
+            str(r.get("Municipio Residencia") or r.get("p1_residencia") or "").strip() 
+            for r in raw_data if (r.get("Municipio Residencia") or r.get("p1_residencia"))
+        ])
+        
+        perfiles = Counter([
+            str(r.get("Perfil / Perspectiva") or r.get("p3_perfil") or "").strip() 
+            for r in raw_data if (r.get("Perfil / Perspectiva") or r.get("p3_perfil"))
+        ])
+        
+        modalidades = Counter([
+            str(r.get("Modalidad Preferida") or r.get("p11_modalidad") or "").strip() 
+            for r in raw_data if (r.get("Modalidad Preferida") or r.get("p11_modalidad"))
+        ])
         
         areas_list = []
         for r in raw_data:
@@ -101,20 +111,22 @@ def get_stats():
         
         urgencias = []
         for r in raw_data:
-            try:
-                u = float(r.get("Urgencia Talento (1-5)") or r.get("p26_urgencia_talento") or 0)
-                if u > 0:
-                    urgencias.append(u)
-            except (ValueError, TypeError):
-                pass
+            val_u = r.get("Urgencia Talento (1-5)") or r.get("p26_urgencia_talento")
+            if val_u is not None and str(val_u).strip() != "":
+                try:
+                    u = float(str(val_u).strip())
+                    if u > 0:
+                        urgencias.append(u)
+                except (ValueError, TypeError):
+                    pass
                 
-        urgencia_prom = round(sum(urgencias) / len(urgencias), 1) if urgencias else 0.0
+        urgencia_prom = round(sum(urgencias) / len(urgencias), 1) if len(urgencias) > 0 else 0.0
 
         return {
             "total_respuestas": total,
-            "urgencia_promedio": f"{urgencia_prom}/5",
-            "perfil_predominante": perfiles.most_common(1)[0][0] if perfiles else "N/A",
-            "area_mas_demandada": areas.most_common(1)[0][0] if areas else "N/A",
+            "urgencia_promedio": f"{urgencia_prom}",
+            "perfil_predominante": perfiles.most_common(1)[0][0] if perfiles else "Sin datos",
+            "area_mas_demandada": areas.most_common(1)[0][0] if areas else "Sin datos",
             "municipios": dict(municipios),
             "perfiles": dict(perfiles),
             "modalidades": dict(modalidades),
@@ -126,8 +138,8 @@ def get_stats():
         return {
             "total_respuestas": 0,
             "urgencia_promedio": "0.0",
-            "perfil_predominante": "N/A",
-            "area_mas_demandada": "N/A",
+            "perfil_predominante": "Sin datos",
+            "area_mas_demandada": "Sin datos",
             "municipios": {},
             "perfiles": {},
             "modalidades": {},
