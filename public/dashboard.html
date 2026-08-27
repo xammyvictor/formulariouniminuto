@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNIMINUTO • Dashboard Administrativo de Inteligencia de Mercado</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .kpi-card {
+      background: #ffffff;
+      border-radius: 1rem;
+      border: 1px solid #e2e8f0;
+      padding: 1.25rem;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
+
+  <!-- Modal de Login Obligatorio -->
+  <div id="modalLogin" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-6 md:p-8 space-y-5">
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 bg-sky-500 rounded-2xl flex items-center justify-center font-bold text-xl text-white mx-auto shadow-md">U</div>
+        <h2 class="text-xl font-black text-slate-900 pt-2">Acceso Administrativo</h2>
+        <p class="text-xs text-slate-500">Ingrese sus credenciales para consultar el observatorio</p>
+      </div>
+
+      <form id="formLogin" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Usuario</label>
+          <input type="text" id="loginUser" required class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200" placeholder="Usuario autorizado" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contraseña</label>
+          <input type="password" id="loginPass" required class="w-full border rounded-lg p-2.5 text-sm outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200" placeholder="••••••••" />
+        </div>
+        <div id="loginError" class="text-xs font-bold text-red-600 hidden text-center"></div>
+        <button type="submit" id="btnLogin" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 rounded-lg shadow transition duration-150 text-sm">
+          Iniciar Sesión
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenido Privado del Dashboard -->
+  <div id="contenidoDashboard" class="hidden flex-col flex-grow">
+    <header class="bg-[#0f172a] text-white shadow-md sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center font-bold text-lg text-white shadow">U</div>
+          <div>
+            <h1 class="font-bold text-base md:text-lg leading-tight">UNIMINUTO • Observatorio Administrativo</h1>
+            <p class="text-xs text-slate-300">Sesión iniciada como: <span id="lblUserLogged" class="text-emerald-300 font-bold"></span></p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="/" class="text-xs text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+            Ir a la Encuesta
+          </a>
+          <button onclick="cerrarSesion()" class="text-xs font-bold bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white px-3 py-1.5 rounded-lg border border-red-500/30 transition">
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-6">
+      <!-- Filtros Superiores -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <span class="bg-blue-100 text-blue-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">Inteligencia de Mercado</span>
+          <h2 class="text-xl font-black text-slate-900 mt-1">Diagnóstico Regional de Necesidades de Formación</h2>
+          <p class="text-xs text-slate-500">Métricas analizadas en tiempo real desde Google Sheets</p>
+        </div>
+        
+        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+          <div>
+            <select id="filtroPerfil" onchange="aplicarFiltroDashboard()" class="text-xs font-semibold bg-slate-50 border border-slate-300 rounded-lg p-2.5 outline-none focus:border-sky-500">
+              <option value="TODOS">Todos los perfiles</option>
+              <option value="Persona interesada en iniciar o continuar estudios">Persona interesada en iniciar o continuar estudios</option>
+              <option value="Estudiante">Estudiante</option>
+              <option value="Trabajador(a) / empleado(a)">Trabajador(a) / empleado(a)</option>
+              <option value="Empresario(a) / empleador(a)">Empresario(a) / empleador(a)</option>
+              <option value="Emprendedor(a)">Emprendedor(a)</option>
+              <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+              <option value="Representante de una entidad pública">Representante de una entidad pública</option>
+              <option value="Representante de una institución educativa">Representante de una institución educativa</option>
+              <option value="Representante de una organización social o comunitaria">Representante de una organización social o comunitaria</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <button onclick="cargarDatosDashboard()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2.5 px-3.5 rounded-lg border border-slate-300 transition">
+            🔄 Actualizar
+          </button>
+          <button onclick="descargarCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3.5 rounded-lg shadow transition">
+            📥 Exportar CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="kpi-card border-l-4 border-l-sky-500">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Muestra Filtrada</span>
+          <div id="kpiTotal" class="text-3xl font-black text-slate-900 mt-1">0</div>
+          <span class="text-[11px] text-emerald-600 font-semibold">● Datos en vivo</span>
+        </div>
+
+        <div class="kpi-card border-l-4 border-l-red-500">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Urgencia Formativa</span>
+          <div id="kpiUrgencia" class="text-2xl font-black text-red-600 mt-1">0.0 / 5.0</div>
+          <span class="text-[10px] text-slate-500">Sector productivo</span>
+        </div>
+
+        <div class="kpi-card border-l-4 border-l-amber-500">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Brecha de Talento</span>
+          <div id="kpiDificultad" class="text-2xl font-black text-amber-600 mt-1">0%</div>
+          <span class="text-[10px] text-slate-500">Dificultad de contratación</span>
+        </div>
+
+        <div class="kpi-card border-l-4 border-l-emerald-500">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Área Destacada</span>
+          <div id="kpiArea" class="text-base font-bold text-slate-800 mt-2 truncate">Sin registros</div>
+          <span class="text-[11px] text-emerald-600 font-semibold">Preferencia #1</span>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <h3 class="font-bold text-slate-800 text-sm mb-3">1. Demanda Formativa por Áreas de Conocimiento</h3>
+          <div style="position: relative; height: 280px;">
+            <canvas id="chartAreasDemanda"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <h3 class="font-bold text-slate-800 text-sm mb-3">2. Mapa de Brechas de Talento en Organizaciones</h3>
+          <div style="position: relative; height: 280px;">
+            <canvas id="chartAreasDificultad"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
+          <h3 class="font-bold text-slate-800 text-sm mb-3">3. Matriz de Competencias (Importancia Futura vs Déficit Regional)</h3>
+          <div style="position: relative; height: 300px;">
+            <canvas id="chartCompetencias"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let rawData = [];
+    const chartInstances = {};
+
+    // Comprobar si ya existe una sesión activa
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = sessionStorage.getItem("uniminuto_auth_token");
+      const user = sessionStorage.getItem("uniminuto_user");
+      if (token && user) {
+        mostrarDashboard(user);
+      }
+    });
+
+    // Manejo de Formulario de Login
+    document.getElementById("formLogin").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("btnLogin");
+      const errBox = document.getElementById("loginError");
+      errBox.classList.add("hidden");
+      btn.disabled = true;
+      btn.textContent = "Verificando...";
+
+      const username = document.getElementById("loginUser").value;
+      const password = document.getElementById("loginPass").value;
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          sessionStorage.setItem("uniminuto_auth_token", data.token);
+          sessionStorage.setItem("uniminuto_user", data.user);
+          mostrarDashboard(data.user);
+        } else {
+          errBox.textContent = data.detail || "Credenciales incorrectas.";
+          errBox.classList.remove("hidden");
+        }
+      } catch (err) {
+        errBox.textContent = "Error de conexión con el servidor.";
+        errBox.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Iniciar Sesión";
+      }
+    });
+
+    function mostrarDashboard(user) {
+      document.getElementById("modalLogin").classList.add("hidden");
+      const dash = document.getElementById("contenidoDashboard");
+      dash.classList.remove("hidden");
+      dash.classList.add("flex");
+      document.getElementById("lblUserLogged").textContent = user;
+      cargarDatosDashboard();
+    }
+
+    function cerrarSesion() {
+      sessionStorage.removeItem("uniminuto_auth_token");
+      sessionStorage.removeItem("uniminuto_user");
+      window.location.reload();
+    }
+
+    async function cargarDatosDashboard() {
+      const token = sessionStorage.getItem("uniminuto_auth_token");
+      if (!token) return cerrarSesion();
+
+      try {
+        const res = await fetch("/api/stats", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (res.status === 403 || res.status === 401) {
+          alert("Sesión expirada o no autorizada.");
+          return cerrarSesion();
+        }
+        const json = await res.json();
+        rawData = json.data || [];
+        aplicarFiltroDashboard();
+      } catch (err) {
+        console.error("Error al cargar datos:", err);
+      }
+    }
+
+    function parseMulti(val) {
+      if (!val) return [];
+      if (Array.isArray(val)) return val;
+      return val.toString().split(/[,;]/).map(s => s.trim()).filter(Boolean);
+    }
+
+    function aplicarFiltroDashboard() {
+      const fPerfil = document.getElementById("filtroPerfil").value;
+      
+      const filtrados = (fPerfil === "TODOS") 
+        ? rawData 
+        : rawData.filter(r => {
+            const perfilRow = (r.p3_perfil || r["Perfil / Perspectiva"] || "").toString().trim().toLowerCase();
+            const perfilFiltro = fPerfil.trim().toLowerCase();
+            return perfilRow === perfilFiltro || perfilRow.includes(perfilFiltro) || perfilFiltro.includes(perfilRow);
+          });
+
+      document.getElementById("kpiTotal").textContent = filtrados.length;
+
+      let urgencias = [], difTotal = 0, difCont = 0;
+      const cDemanda = {}, cDificultad = {}, cFuturo = {}, cDeficit = {};
+
+      filtrados.forEach(r => {
+        const u = parseFloat(r.p26_urgencia_talento || r["Urgencia Talento (1-5)"]);
+        if (!isNaN(u) && u > 0) urgencias.push(u);
+
+        const dif = r.p22_dificultad || r["p22_dificultad"];
+        if (dif) {
+          difTotal++;
+          if (dif.includes("frecuentemente") || dif.includes("ocasionalmente")) difCont++;
+        }
+
+        parseMulti(r.p10_areas || r["Áreas de Interés"]).forEach(a => cDemanda[a] = (cDemanda[a] || 0) + 1);
+        parseMulti(r.p23_areas_dificultad || r["p23_areas_dificultad"]).forEach(a => cDificultad[a] = (cDificultad[a] || 0) + 1);
+        parseMulti(r.p20_comp_futuro || r["p20_comp_futuro"]).forEach(c => cFuturo[c] = (cFuturo[c] || 0) + 1);
+        parseMulti(r.p21_comp_deficit || r["p21_comp_deficit"]).forEach(c => cDeficit[c] = (cDeficit[c] || 0) + 1);
+      });
+
+      document.getElementById("kpiUrgencia").textContent = urgencias.length ? (urgencias.reduce((a, b) => a + b, 0) / urgencias.length).toFixed(1) : "0.0";
+      document.getElementById("kpiDificultad").textContent = difTotal ? Math.round((difCont / difTotal) * 100) + "%" : "0%";
+      
+      const topArea = Object.entries(cDemanda).sort((a,b) => b[1] - a[1])[0];
+      document.getElementById("kpiArea").textContent = topArea ? `${topArea[0]} (${topArea[1]})` : "Sin registros";
+
+      renderBar("chartAreasDemanda", cDemanda, "#0284c7");
+      renderBar("chartAreasDificultad", cDificultad, "#e11d48");
+      renderDoubleBar("chartCompetencias", cFuturo, cDeficit);
+    }
+
+    function renderBar(canvasId, dataMap, color) {
+      const ctx = document.getElementById(canvasId)?.getContext("2d");
+      if (!ctx) return;
+      
+      if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+      
+      const sorted = Object.entries(dataMap).sort((a,b) => b[1] - a[1]).slice(0, 6);
+      const labels = sorted.length ? sorted.map(s => s[0]) : ["Sin datos"];
+      const data = sorted.length ? sorted.map(s => s[1]) : [0];
+
+      chartInstances[canvasId] = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ data: data, backgroundColor: color, borderRadius: 4 }] },
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+    }
+
+    function renderDoubleBar(canvasId, futMap, defMap) {
+      const ctx = document.getElementById(canvasId)?.getContext("2d");
+      if (!ctx) return;
+
+      if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+
+      const labels = Array.from(new Set([...Object.keys(futMap), ...Object.keys(defMap)])).slice(0, 8);
+      const lbls = labels.length ? labels : ["Sin datos"];
+      const dFut = labels.length ? labels.map(c => futMap[c] || 0) : [0];
+      const dDef = labels.length ? labels.map(c => defMap[c] || 0) : [0];
+
+      chartInstances[canvasId] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: lbls,
+          datasets: [
+            { label: 'Importancia Futura', data: dFut, backgroundColor: '#0284c7' },
+            { label: 'Déficit Regional', data: dDef, backgroundColor: '#f97316' }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+
+    function descargarCSV() {
+      if (!rawData.length) return alert("No hay datos para exportar.");
+      const headers = Object.keys(rawData[0]);
+      let csv = headers.join(",") + "\n";
+      rawData.forEach(row => {
+        csv += headers.map(h => `"${(row[h] || '').toString().replace(/"/g, '""')}"`).join(",") + "\n";
+      });
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", `encuesta_uniminuto_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
