@@ -33,8 +33,14 @@ def health_check():
 async def receive_survey(request: Request):
     try:
         data = await request.json()
+        
+        # Validación de perfil obligatorio
         if not data.get("p3_perfil"):
             raise HTTPException(status_code=400, detail="El perfil es obligatorio.")
+        
+        # Validación de consentimiento de la cláusula de tratamiento de datos
+        if data.get("acepto_politica_datos") != "SÍ":
+            raise HTTPException(status_code=400, detail="Debe aceptar la Cláusula de Protección y Tratamiento de Datos Personales.")
         
         data["timestamp_utc"] = datetime.utcnow().isoformat()
 
@@ -51,6 +57,8 @@ async def receive_survey(request: Request):
                 print(f"[ERROR SHEETS POST]: {str(e_sheet)}")
 
         return {"success": True, "message": "Respuesta guardada correctamente"}
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -65,7 +73,7 @@ async def login(request: Request):
         return {"success": True, "token": AUTH_TOKEN, "user": ADMIN_USER}
     raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos.")
 
-# Endpoint protegido para el Dashboard (requiere token de autenticación)
+# Endpoint protegido para el Dashboard
 @app.get("/api/stats")
 def get_stats(authorization: str = Header(None)):
     if not authorization or authorization != f"Bearer {AUTH_TOKEN}":
