@@ -60,324 +60,21 @@
 
     <form id="formularioEncuesta" class="space-y-6">
 
-      <!-- SECCIÓN 1: CARACTERIZACIÓN -->
-      <div id="sec1" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 1. Caracterización del Participante</h3>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">1. Municipio de residencia *</label>
-            <select id="p1_residencia" name="p1_residencia" required class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Buga">Guadalajara de Buga</option>
-              <option value="Tuluá">Tuluá</option>
-              <option value="Guacarí">Guacarí</option>
-              <option value="Ginebra">Ginebra</option>
-              <option value="San Pedro">San Pedro</option>
-              <option value="Yotoco">Yotoco</option>
-              <option value="Restrepo">Restrepo</option>
-              <option value="Cali">Cali</option>
-              <option value="Palmira">Palmira</option>
-              <option value="Otro municipio">Otro municipio</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">2. Municipio de actividad *</label>
-            <select id="p2_actividad" name="p2_actividad" required class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Buga">Guadalajara de Buga</option>
-              <option value="Tuluá">Tuluá</option>
-              <option value="Guacarí">Guacarí</option>
-              <option value="Ginebra">Ginebra</option>
-              <option value="San Pedro">San Pedro</option>
-              <option value="Yotoco">Yotoco</option>
-              <option value="Cali">Cali</option>
-              <option value="Otro municipio">Otro municipio</option>
-              <option value="No aplica">No aplica</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="bg-sky-50 border border-sky-200 p-4 rounded-xl">
-          <label class="block text-sm font-bold text-sky-950 mb-1">3. ¿Desde cuál de las siguientes perspectivas responde principalmente? * (Define la ruta)[cite: 1, 2, 3]</label>
-          <select id="p3_perfil" name="p3_perfil" required class="input-base bg-white" onchange="aplicarRamificacion()">
-            <option value="">Seleccione su perspectiva principal...</option>
-            <option value="Persona interesada en iniciar o continuar estudios">Persona interesada en iniciar o continuar estudios</option>
-            <option value="Estudiante">Estudiante</option>
-            <option value="Trabajador(a) / empleado(a)">Trabajador(a) / empleado(a)</option>
-            <option value="Empresario(a) / empleador(a)">Empresario(a) / empleador(a)</option>
-            <option value="Emprendedor(a)">Emprendedor(a)</option>
-            <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
-            <option value="Representante de una entidad pública">Representante de una entidad pública</option>
-            <option value="Representante de una institución educativa">Representante de una institución educativa</option>
-            <option value="Representante de una organización social o comunitaria">Representante de una organización social o comunitaria</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">4. Relación con el sector laboral o productivo</label>
-            <select id="p4_relacion" name="p4_relacion" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Empresario(a) / propietario(a) de empresa">Empresario(a) / propietario(a) de empresa</option>
-              <option value="Emprendedor(a)">Emprendedor(a)</option>
-              <option value="Empleado(a) del sector privado">Empleado(a) del sector privado</option>
-              <option value="Servidor(a) o colaborador(a) del sector público">Servidor(a) sector público</option>
-              <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
-              <option value="Estudiante">Estudiante</option>
-              <option value="Actualmente no se encuentra trabajando">Actualmente no trabaja</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">5. Cargo u ocupación principal</label>
-            <select id="p5_cargo" name="p5_cargo" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Gerencia / alta dirección">Gerencia / alta dirección</option>
-              <option value="Jefatura / coordinación / supervisión">Jefatura / coordinación</option>
-              <option value="Profesional">Profesional</option>
-              <option value="Técnico(a) / tecnólogo(a)">Técnico(a) / tecnólogo(a)</option>
-              <option value="Administrativo(a) / Operativo(a)">Administrativo(a) / Operativo(a)</option>
-              <option value="Empresario(a) / emprendedor(a)">Empresario(a) / emprendedor(a)</option>
-              <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
-              <option value="Estudiante">Estudiante</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">6. Sector de actividad principal</label>
-            <select id="p6_sector" name="p6_sector" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Agropecuario">Agropecuario</option>
-              <option value="Agroindustria">Agroindustria</option>
-              <option value="Comercio">Comercio</option>
-              <option value="Manufactura / industria">Manufactura / industria</option>
-              <option value="Construcción">Construcción</option>
-              <option value="Turismo, gastronomía y hotelería">Turismo y gastronomía</option>
-              <option value="Salud">Salud</option>
-              <option value="Educación">Educación</option>
-              <option value="Tecnología y servicios digitales">Tecnología y digital</option>
-              <option value="Transporte y logística">Transporte y logística</option>
-              <option value="Servicios financieros">Servicios financieros</option>
-              <option value="Administración pública">Administración pública</option>
-              <option value="Servicios profesionales">Servicios profesionales</option>
-              <option value="Economía creativa y diseño">Economía creativa</option>
-              <option value="Servicios sociales y comunitarios">Servicios sociales</option>
-              <option value="Otro">Otro</option>
-              <option value="No aplica">No aplica</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">7. Nivel educativo más alto</label>
-            <select id="p7_nivel_educativo" name="p7_nivel_educativo" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Educación básica / Bachillerato">Bachillerato</option>
-              <option value="Técnico laboral / profesional">Técnico</option>
-              <option value="Tecnológico">Tecnológico</option>
-              <option value="Profesional universitario">Profesional universitario</option>
-              <option value="Especialización">Especialización</option>
-              <option value="Maestría / Doctorado">Maestría / Doctorado</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECCIÓN 2: FORMACIÓN -->
-      <div id="sec2" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 2. Necesidades e Interés en Formación</h3>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">8. Formación de interés para los próximos 2 años</label>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Técnico profesional" /> Técnico profesional</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Tecnológico" /> Tecnológico</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Profesional universitario" /> Profesional universitario</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Especialización" /> Especialización</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Maestría" /> Maestría</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Diplomados / Cursos" /> Diplomados / Cursos</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Certificaciones profesionales" /> Certificaciones</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Microcredenciales" /> Microcredenciales</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Idiomas" /> Idiomas</label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">10. Áreas de conocimiento de mayor interés (Máx. 3)</label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Administración y gestión" onchange="limitarCheckbox(this, 3)" /> Administración y gestión</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Contabilidad y finanzas" onchange="limitarCheckbox(this, 3)" /> Contabilidad y finanzas</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Ingeniería industrial y procesos" onchange="limitarCheckbox(this, 3)" /> Ingeniería industrial y procesos</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Inteligencia Artificial" onchange="limitarCheckbox(this, 3)" /> Inteligencia Artificial</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Analítica y ciencia de datos" onchange="limitarCheckbox(this, 3)" /> Analítica y ciencia de datos</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Logística y cadena de suministro" onchange="limitarCheckbox(this, 3)" /> Logística y suministros</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Agroindustria y desarrollo rural" onchange="limitarCheckbox(this, 3)" /> Agroindustria y desarrollo rural</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Ciberseguridad y software" onchange="limitarCheckbox(this, 3)" /> Ciberseguridad y software</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Sostenibilidad y medio ambiente" onchange="limitarCheckbox(this, 3)" /> Sostenibilidad y medio ambiente</label>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">11. Modalidad</label>
-            <select id="p11_modalidad" name="p11_modalidad" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Presencial">Presencial</option>
-              <option value="Virtual">Virtual</option>
-              <option value="Híbrida">Híbrida</option>
-              <option value="A distancia con encuentros periódicos">A distancia</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">12. Horario</label>
-            <select id="p12_horario" name="p12_horario" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Jornada diurna">Jornada diurna</option>
-              <option value="Jornada nocturna">Jornada nocturna</option>
-              <option value="Fines de semana">Fines de semana</option>
-              <option value="Horarios flexibles">Horarios flexibles</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">13. Duración</label>
-            <select id="p13_duracion" name="p13_duracion" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Menos de 1 mes">Menos de 1 mes</option>
-              <option value="Entre 1 y 3 meses">1 a 3 meses</option>
-              <option value="Entre 4 y 6 meses">4 a 6 meses</option>
-              <option value="Entre 7 y 12 meses">7 a 12 meses</option>
-              <option value="Entre 1 y 2 años">1 a 2 años</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECCIÓN 3: ACCESO ECONÓMICO -->
-      <div id="sec3" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 3. Condiciones Económicas y de Acceso</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">17. Valor máximo por semestre</label>
-            <select id="p17_valor_semestre" name="p17_valor_semestre" class="input-base">
-              <option value="">Seleccione...</option>
-              <option value="Menos de $1.500.000">Menos de $1.500.000</option>
-              <option value="Entre $1.500.000 y $2.000.000">Entre $1.500.000 y $2.000.000</option>
-              <option value="Entre $2.000.001 y $2.500.000">Entre $2.000.001 y $2.500.000</option>
-              <option value="Más de $2.500.000">Más de $2.500.000</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">18. ¿Requeriría apoyo financiero?</label>
-            <select id="p18_apoyo_fin" name="p18_apoyo_fin" class="input-base">
-              <option value="Sí">Sí</option>
-              <option value="No">No</option>
-              <option value="No está seguro(a)">No está seguro(a)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECCIÓN 4: COMPETENCIAS -->
-      <div id="sec4" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 4. Competencias para el Empleo</h3>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">20. Competencias más importantes a futuro (Máx. 5)</label>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Comunicación efectiva" onchange="limitarCheckbox(this, 5)" /> Comunicación efectiva</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Trabajo en equipo" onchange="limitarCheckbox(this, 5)" /> Trabajo en equipo</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Liderazgo" onchange="limitarCheckbox(this, 5)" /> Liderazgo</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Pensamiento crítico" onchange="limitarCheckbox(this, 5)" /> Pensamiento crítico</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Inglés" onchange="limitarCheckbox(this, 5)" /> Inglés</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Competencias digitales" onchange="limitarCheckbox(this, 5)" /> Competencias digitales</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Inteligencia Artificial" onchange="limitarCheckbox(this, 5)" /> Inteligencia Artificial</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Analítica de datos" onchange="limitarCheckbox(this, 5)" /> Analítica de datos</label>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECCIÓN 5: TALENTO -->
-      <div id="sec5" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 5. Necesidades de Talento del Sector Productivo</h3>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">22. ¿Dificultad para contratar talento?</label>
-          <select id="p22_dificultad" name="p22_dificultad" class="input-base">
-            <option value="">Seleccione...</option>
-            <option value="Sí, frecuentemente">Sí, frecuentemente</option>
-            <option value="Sí, ocasionalmente">Sí, ocasionalmente</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">23. Áreas con mayor dificultad de talento (Máx. 5)</label>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Administración" onchange="limitarCheckbox(this, 5)" /> Administración</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Ingeniería industrial" onchange="limitarCheckbox(this, 5)" /> Ingeniería industrial</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Sistemas y software" onchange="limitarCheckbox(this, 5)" /> Sistemas y software</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="IA y Analítica" onchange="limitarCheckbox(this, 5)" /> IA y Analítica</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Logística" onchange="limitarCheckbox(this, 5)" /> Logística</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Agroindustria" onchange="limitarCheckbox(this, 5)" /> Agroindustria</label>
-          </div>
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">26. Urgencia formativa (1: Baja a 5: Muy urgente)</label>
-          <input type="range" id="p26_urgencia_talento" name="p26_urgencia_talento" min="1" max="5" value="4" class="w-full accent-sky-600" oninput="document.getElementById('lblUrg').textContent = this.value" />
-          <div class="flex justify-between text-xs font-bold text-slate-500">
-            <span>1</span><span id="lblUrg" class="text-sky-700 text-base font-black">4</span><span>5</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECCIÓN 9: DESARROLLO REGIONAL -->
-      <div id="sec9" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 9. Prospectiva Regional</h3>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">43. Programa o certificación propuesta para el territorio</label>
-          <input type="text" id="p43_propuesta" name="p43_propuesta" class="input-base" placeholder="Ej: Diplomado en IA Aplicada..." />
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-1">44. Justificación territorial</label>
-          <input type="text" id="p44_justificacion" name="p44_justificacion" class="input-base" placeholder="Justificación breve..." />
-        </div>
-      </div>
-
-      <!-- SECCIÓN 10: ORGANIZACIÓN -->
-      <div id="sec10" class="card-seccion space-y-5">
-        <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 10. Información de la Organización</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">45. Nombre de la empresa u organización</label>
-            <input type="text" id="p45_nombre_org" name="p45_nombre_org" class="input-base" placeholder="Opcional..." />
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">46. Tamaño aproximado</label>
-            <select id="p46_tamano_org" name="p46_tamano_org" class="input-base">
-              <option value="1 a 10 colaboradores">1 a 10 colaboradores</option>
-              <option value="11 a 50 colaboradores">11 a 50 colaboradores</option>
-              <option value="51 a 200 colaboradores">51 a 200 colaboradores</option>
-              <option value="Más de 200 colaboradores">Más de 200 colaboradores</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- CLÁUSULA DE PROTECCIÓN Y TRATAMIENTO DE DATOS PERSONALES -->
-      <div class="card-seccion border-slate-300 bg-slate-50 space-y-4">
+      <!-- PASO PREVIO: CLÁUSULA DE PROTECCIÓN Y TRATAMIENTO DE DATOS PERSONALES -->
+      <div id="cardConsentimiento" class="card-seccion border-sky-300 bg-sky-50/40 space-y-4">
         <div class="flex items-center gap-2 border-b border-slate-200 pb-3">
-          <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-sky-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
           </svg>
-          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
-            CLÁUSULA. PROTECCIÓN Y TRATAMIENTO DE DATOS PERSONALES
-          </h3>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
+              CLÁUSULA. PROTECCIÓN Y TRATAMIENTO DE DATOS PERSONALES
+            </h3>
+            <p class="text-[11px] text-slate-500">Debe leer y aceptar esta cláusula para habilitar el diligenciamiento de la encuesta.</p>
+          </div>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-lg p-4 max-h-56 overflow-y-auto text-xs text-slate-600 leading-relaxed space-y-3 font-normal">
+        <div class="bg-white border border-slate-200 rounded-lg p-4 max-h-56 overflow-y-auto text-xs text-slate-600 leading-relaxed space-y-3 font-normal shadow-inner">
           <p>Las partes se obligan a cumplir la Constitución Política, la Ley 1581 de 2012, el Decreto 1074 de 2015, las disposiciones que los modifiquen, adicionen o sustituyan y, cuando resulte aplicable, la Política de Tratamiento de Información, la Política de Seguridad de la Información y los demás lineamientos internos de la CORPORACIÓN UNIVERSITARIA MINUTO DE DIOS – UNIMINUTO.</p>
           
           <p><strong>Datos relacionados con la relación contractual:</strong> Cada parte actuará como Responsable del Tratamiento respecto de los datos personales de los representantes legales, trabajadores, contratistas, proveedores y personas de contacto de la otra parte que reciba con ocasión de la negociación, celebración, ejecución, supervisión, terminación, liquidación y archivo del contrato. Estos datos solamente podrán tratarse para gestionar la relación contractual, cumplir obligaciones legales, contables y administrativas, efectuar controles de seguridad, atender requerimientos de autoridades y ejercer o defender derechos. Cada parte garantizará que cuenta con la autorización u otra habilitación legal aplicable y que ha informado a los titulares acerca del tratamiento y de los mecanismos para ejercer sus derechos.</p>
@@ -404,18 +101,330 @@
           <p><strong>Vigencia:</strong> Las obligaciones de confidencialidad, seguridad, cooperación, devolución o eliminación y responsabilidad sobrevivirán a la terminación o liquidación del contrato durante el tiempo en que alguna de las partes conserve o trate datos personales obtenidos con ocasión de este.</p>
         </div>
 
-        <div class="bg-white p-3.5 rounded-lg border border-slate-200 flex items-start gap-3">
-          <input type="checkbox" id="acepto_politica_datos" name="acepto_politica_datos" required class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
-          <label for="acepto_politica_datos" class="text-xs text-slate-700 leading-snug cursor-pointer select-none">
+        <div class="bg-white p-3.5 rounded-lg border border-sky-300 flex items-start gap-3">
+          <input type="checkbox" id="acepto_politica_datos" name="acepto_politica_datos" onchange="verificarConsentimiento()" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer" />
+          <label for="acepto_politica_datos" class="text-xs text-slate-800 leading-snug cursor-pointer select-none">
             He leído, comprendo y <strong>acepto expresamente la Cláusula de Protección y Tratamiento de Datos Personales</strong> de la CORPORACIÓN UNIVERSITARIA MINUTO DE DIOS – UNIMINUTO de conformidad con la Ley 1581 de 2012. *
           </label>
         </div>
       </div>
 
-      <div class="pt-2">
-        <button type="submit" id="btnEnviar" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition duration-200 flex justify-center items-center gap-2">
-          <span>Enviar Encuesta Regional</span>
-        </button>
+      <!-- CONTENEDOR BLOQUEADO HASTA ACEPTAR POLÍTICAS -->
+      <div id="contenedorPreguntas" class="seccion-oculta space-y-6">
+
+        <!-- SECCIÓN 1: CARACTERIZACIÓN -->
+        <div id="sec1" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 1. Caracterización del Participante</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">1. Municipio de residencia *</label>
+              <select id="p1_residencia" name="p1_residencia" required class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Buga">Guadalajara de Buga</option>
+                <option value="Tuluá">Tuluá</option>
+                <option value="Guacarí">Guacarí</option>
+                <option value="Ginebra">Ginebra</option>
+                <option value="San Pedro">San Pedro</option>
+                <option value="Yotoco">Yotoco</option>
+                <option value="Restrepo">Restrepo</option>
+                <option value="Cali">Cali</option>
+                <option value="Palmira">Palmira</option>
+                <option value="Otro municipio">Otro municipio</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">2. Municipio de actividad *</label>
+              <select id="p2_actividad" name="p2_actividad" required class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Buga">Guadalajara de Buga</option>
+                <option value="Tuluá">Tuluá</option>
+                <option value="Guacarí">Guacarí</option>
+                <option value="Ginebra">Ginebra</option>
+                <option value="San Pedro">San Pedro</option>
+                <option value="Yotoco">Yotoco</option>
+                <option value="Cali">Cali</option>
+                <option value="Otro municipio">Otro municipio</option>
+                <option value="No aplica">No aplica</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bg-sky-50 border border-sky-200 p-4 rounded-xl">
+            <label class="block text-sm font-bold text-sky-950 mb-1">3. ¿Desde cuál de las siguientes perspectivas responde principalmente? * (Define la ruta)</label>
+            <select id="p3_perfil" name="p3_perfil" required class="input-base bg-white" onchange="aplicarRamificacion()">
+              <option value="">Seleccione su perspectiva principal...</option>
+              <option value="Persona interesada en iniciar o continuar estudios">Persona interesada en iniciar o continuar estudios</option>
+              <option value="Estudiante">Estudiante</option>
+              <option value="Trabajador(a) / empleado(a)">Trabajador(a) / empleado(a)</option>
+              <option value="Empresario(a) / empleador(a)">Empresario(a) / empleador(a)</option>
+              <option value="Emprendedor(a)">Emprendedor(a)</option>
+              <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+              <option value="Representante de una entidad pública">Representante de una entidad pública</option>
+              <option value="Representante de una institución educativa">Representante de una institución educativa</option>
+              <option value="Representante de una organización social o comunitaria">Representante de una organización social o comunitaria</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">4. Relación con el sector laboral o productivo</label>
+              <select id="p4_relacion" name="p4_relacion" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Empresario(a) / propietario(a) de empresa">Empresario(a) / propietario(a) de empresa</option>
+                <option value="Emprendedor(a)">Emprendedor(a)</option>
+                <option value="Empleado(a) del sector privado">Empleado(a) del sector privado</option>
+                <option value="Servidor(a) o colaborador(a) del sector público">Servidor(a) sector público</option>
+                <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+                <option value="Estudiante">Estudiante</option>
+                <option value="Actualmente no se encuentra trabajando">Actualmente no trabaja</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">5. Cargo u ocupación principal</label>
+              <select id="p5_cargo" name="p5_cargo" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Gerencia / alta dirección">Gerencia / alta dirección</option>
+                <option value="Jefatura / coordinación / supervisión">Jefatura / coordinación</option>
+                <option value="Profesional">Profesional</option>
+                <option value="Técnico(a) / tecnólogo(a)">Técnico(a) / tecnólogo(a)</option>
+                <option value="Administrativo(a) / Operativo(a)">Administrativo(a) / Operativo(a)</option>
+                <option value="Empresario(a) / emprendedor(a)">Empresario(a) / emprendedor(a)</option>
+                <option value="Trabajador(a) independiente">Trabajador(a) independiente</option>
+                <option value="Estudiante">Estudiante</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">6. Sector de actividad principal</label>
+              <select id="p6_sector" name="p6_sector" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Agropecuario">Agropecuario</option>
+                <option value="Agroindustria">Agroindustria</option>
+                <option value="Comercio">Comercio</option>
+                <option value="Manufactura / industria">Manufactura / industria</option>
+                <option value="Construcción">Construcción</option>
+                <option value="Turismo, gastronomía y hotelería">Turismo y gastronomía</option>
+                <option value="Salud">Salud</option>
+                <option value="Educación">Educación</option>
+                <option value="Tecnología y servicios digitales">Tecnología y digital</option>
+                <option value="Transporte y logística">Transporte y logística</option>
+                <option value="Servicios financieros">Servicios financieros</option>
+                <option value="Administración pública">Administración pública</option>
+                <option value="Servicios profesionales">Servicios profesionales</option>
+                <option value="Economía creativa y diseño">Economía creativa</option>
+                <option value="Servicios sociales y comunitarios">Servicios sociales</option>
+                <option value="Otro">Otro</option>
+                <option value="No aplica">No aplica</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">7. Nivel educativo más alto</label>
+              <select id="p7_nivel_educativo" name="p7_nivel_educativo" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Educación básica / Bachillerato">Bachillerato</option>
+                <option value="Técnico laboral / profesional">Técnico</option>
+                <option value="Tecnológico">Tecnológico</option>
+                <option value="Profesional universitario">Profesional universitario</option>
+                <option value="Especialización">Especialización</option>
+                <option value="Maestría / Doctorado">Maestría / Doctorado</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: FORMACIÓN -->
+        <div id="sec2" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 2. Necesidades e Interés en Formación</h3>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">8. Formación de interés para los próximos 2 años</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Técnico profesional" /> Técnico profesional</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Tecnológico" /> Tecnológico</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Profesional universitario" /> Profesional universitario</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Especialización" /> Especialización</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Maestría" /> Maestría</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Diplomados / Cursos" /> Diplomados / Cursos</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Certificaciones profesionales" /> Certificaciones</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Microcredenciales" /> Microcredenciales</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p8_tipo_formacion" value="Idiomas" /> Idiomas</label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">10. Áreas de conocimiento de mayor interés (Máx. 3)</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Administración y gestión" onchange="limitarCheckbox(this, 3)" /> Administración y gestión</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Contabilidad y finanzas" onchange="limitarCheckbox(this, 3)" /> Contabilidad y finanzas</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Ingeniería industrial y procesos" onchange="limitarCheckbox(this, 3)" /> Ingeniería industrial y procesos</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Inteligencia Artificial" onchange="limitarCheckbox(this, 3)" /> Inteligencia Artificial</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Analítica y ciencia de datos" onchange="limitarCheckbox(this, 3)" /> Analítica y ciencia de datos</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Logística y cadena de suministro" onchange="limitarCheckbox(this, 3)" /> Logística y suministros</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Agroindustria y desarrollo rural" onchange="limitarCheckbox(this, 3)" /> Agroindustria y desarrollo rural</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Ciberseguridad y software" onchange="limitarCheckbox(this, 3)" /> Ciberseguridad y software</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p10_areas" value="Sostenibilidad y medio ambiente" onchange="limitarCheckbox(this, 3)" /> Sostenibilidad y medio ambiente</label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">11. Modalidad</label>
+              <select id="p11_modalidad" name="p11_modalidad" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Presencial">Presencial</option>
+                <option value="Virtual">Virtual</option>
+                <option value="Híbrida">Híbrida</option>
+                <option value="A distancia con encuentros periódicos">A distancia</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">12. Horario</label>
+              <select id="p12_horario" name="p12_horario" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Jornada diurna">Jornada diurna</option>
+                <option value="Jornada nocturna">Jornada nocturna</option>
+                <option value="Fines de semana">Fines de semana</option>
+                <option value="Horarios flexibles">Horarios flexibles</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">13. Duración</label>
+              <select id="p13_duracion" name="p13_duracion" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Menos de 1 mes">Menos de 1 mes</option>
+                <option value="Entre 1 y 3 meses">1 a 3 meses</option>
+                <option value="Entre 4 y 6 meses">4 a 6 meses</option>
+                <option value="Entre 7 y 12 meses">7 a 12 meses</option>
+                <option value="Entre 1 y 2 años">1 a 2 años</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: ACCESO ECONÓMICO -->
+        <div id="sec3" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 3. Condiciones Económicas y de Acceso</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">17. Valor máximo por semestre</label>
+              <select id="p17_valor_semestre" name="p17_valor_semestre" class="input-base">
+                <option value="">Seleccione...</option>
+                <option value="Menos de $1.500.000">Menos de $1.500.000</option>
+                <option value="Entre $1.500.000 y $2.000.000">Entre $1.500.000 y $2.000.000</option>
+                <option value="Entre $2.000.001 y $2.500.000">Entre $2.000.001 y $2.500.000</option>
+                <option value="Más de $2.500.000">Más de $2.500.000</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">18. ¿Requeriría apoyo financiero?</label>
+              <select id="p18_apoyo_fin" name="p18_apoyo_fin" class="input-base">
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+                <option value="No está seguro(a)">No está seguro(a)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 4: COMPETENCIAS -->
+        <div id="sec4" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 4. Competencias para el Empleo</h3>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">20. Competencias más importantes a futuro (Máx. 5)</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Comunicación efectiva" onchange="limitarCheckbox(this, 5)" /> Comunicación efectiva</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Trabajo en equipo" onchange="limitarCheckbox(this, 5)" /> Trabajo en equipo</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Liderazgo" onchange="limitarCheckbox(this, 5)" /> Liderazgo</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Pensamiento crítico" onchange="limitarCheckbox(this, 5)" /> Pensamiento crítico</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Inglés" onchange="limitarCheckbox(this, 5)" /> Inglés</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Competencias digitales" onchange="limitarCheckbox(this, 5)" /> Competencias digitales</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Inteligencia Artificial" onchange="limitarCheckbox(this, 5)" /> Inteligencia Artificial</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p20_comp_futuro" value="Analítica de datos" onchange="limitarCheckbox(this, 5)" /> Analítica de datos</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 5: TALENTO -->
+        <div id="sec5" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 5. Necesidades de Talento del Sector Productivo</h3>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">22. ¿Dificultad para contratar talento?</label>
+            <select id="p22_dificultad" name="p22_dificultad" class="input-base">
+              <option value="">Seleccione...</option>
+              <option value="Sí, frecuentemente">Sí, frecuentemente</option>
+              <option value="Sí, ocasionalmente">Sí, ocasionalmente</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">23. Áreas con mayor dificultad de talento (Máx. 5)</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Administración" onchange="limitarCheckbox(this, 5)" /> Administración</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Ingeniería industrial" onchange="limitarCheckbox(this, 5)" /> Ingeniería industrial</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Sistemas y software" onchange="limitarCheckbox(this, 5)" /> Sistemas y software</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="IA y Analítica" onchange="limitarCheckbox(this, 5)" /> IA y Analítica</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Logística" onchange="limitarCheckbox(this, 5)" /> Logística</label>
+              <label class="flex items-center gap-1.5"><input type="checkbox" name="p23_areas_dificultad" value="Agroindustria" onchange="limitarCheckbox(this, 5)" /> Agroindustria</label>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">26. Urgencia formativa (1: Baja a 5: Muy urgente)</label>
+            <input type="range" id="p26_urgencia_talento" name="p26_urgencia_talento" min="1" max="5" value="4" class="w-full accent-sky-600" oninput="document.getElementById('lblUrg').textContent = this.value" />
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span>1</span><span id="lblUrg" class="text-sky-700 text-base font-black">4</span><span>5</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 9: DESARROLLO REGIONAL -->
+        <div id="sec9" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 9. Prospectiva Regional</h3>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">43. Programa o certificación propuesta para el territorio</label>
+            <input type="text" id="p43_propuesta" name="p43_propuesta" class="input-base" placeholder="Ej: Diplomado en IA Aplicada..." />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">44. Justificación territorial</label>
+            <input type="text" id="p44_justificacion" name="p44_justificacion" class="input-base" placeholder="Justificación breve..." />
+          </div>
+        </div>
+
+        <!-- SECCIÓN 10: ORGANIZACIÓN -->
+        <div id="sec10" class="card-seccion space-y-5">
+          <h3 class="text-lg font-bold text-slate-900 border-b pb-3 text-sky-900">SECCIÓN 10. Información de la Organización</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">45. Nombre de la empresa u organización</label>
+              <input type="text" id="p45_nombre_org" name="p45_nombre_org" class="input-base" placeholder="Opcional..." />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">46. Tamaño aproximado</label>
+              <select id="p46_tamano_org" name="p46_tamano_org" class="input-base">
+                <option value="1 a 10 colaboradores">1 a 10 colaboradores</option>
+                <option value="11 a 50 colaboradores">11 a 50 colaboradores</option>
+                <option value="51 a 200 colaboradores">51 a 200 colaboradores</option>
+                <option value="Más de 200 colaboradores">Más de 200 colaboradores</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTÓN DE ENVÍO -->
+        <div class="pt-4">
+          <button type="submit" id="btnEnviar" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition duration-200">
+            <span>Enviar Encuesta Regional</span>
+          </button>
+        </div>
+
       </div>
     </form>
   </main>
@@ -425,6 +434,18 @@
   </footer>
 
   <script>
+    function verificarConsentimiento() {
+      const acepto = document.getElementById("acepto_politica_datos").checked;
+      const contenedor = document.getElementById("contenedorPreguntas");
+      
+      if (acepto) {
+        contenedor.classList.remove("seccion-oculta");
+        aplicarRamificacion();
+      } else {
+        contenedor.classList.add("seccion-oculta");
+      }
+    }
+
     function limitarCheckbox(checkbox, max) {
       const marcados = document.querySelectorAll(`input[name="${checkbox.name}"]:checked`);
       if (marcados.length > max) {
@@ -462,11 +483,10 @@
 
     document.getElementById("formularioEncuesta").addEventListener("submit", async (e) => {
       e.preventDefault();
-      
-      const checkDatos = document.getElementById("acepto_politica_datos");
-      if (!checkDatos.checked) {
-        alert("Debe leer y aceptar la Cláusula de Protección y Tratamiento de Datos Personales para continuar.");
-        checkDatos.focus();
+
+      const acepto = document.getElementById("acepto_politica_datos").checked;
+      if (!acepto) {
+        alert("Debe aceptar la Cláusula de Protección de Datos para continuar.");
         return;
       }
 
@@ -484,8 +504,7 @@
         }
       });
 
-      // Asegurar que conste la aceptación afirmativa
-      data.acepto_politica_datos = checkDatos.checked ? "SÍ" : "NO";
+      data.acepto_politica_datos = "SÍ";
 
       try {
         const res = await fetch("/api/submit", { 
@@ -496,7 +515,7 @@
         if (res.ok) {
           alert("¡Registro exitoso! Muchas gracias por su valiosa participación.");
           e.target.reset();
-          aplicarRamificacion();
+          verificarConsentimiento();
         } else {
           const errRes = await res.json();
           alert(errRes.detail || "Hubo un problema al guardar la respuesta.");
@@ -509,7 +528,9 @@
       }
     });
 
-    document.addEventListener("DOMContentLoaded", aplicarRamificacion);
+    document.addEventListener("DOMContentLoaded", () => {
+      verificarConsentimiento();
+    });
   </script>
 </body>
 </html>
